@@ -1,0 +1,1 @@
+//class mô tả dữ liệu
