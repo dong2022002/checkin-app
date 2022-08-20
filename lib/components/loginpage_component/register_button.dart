@@ -1,5 +1,4 @@
 import 'package:checkin_app/core/values/app_color.dart';
-import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 
 class RegisterButton extends StatelessWidget {

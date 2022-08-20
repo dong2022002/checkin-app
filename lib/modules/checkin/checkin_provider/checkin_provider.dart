@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:checkin_app/core/api/token.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +8,12 @@ import 'package:http/http.dart' as http;
 class CheckinProvider with ChangeNotifier {
   Future<void> postCheckinUser(String? code, int? id) async {
     final Map<String, dynamic> checkinApi = {
-      "memberId": id,
-      "eventId": int.parse(code!)
+      "doanVienId": id,
+      "sukienId": int.parse(code!),
+      "lanDiemDanh": 1,
+      "thoiGian": "T6, 01:35 PM, 05/08/2022",
+      "viTri": "11.954546348293173, 108.4441818400426",
+      "hinh thuc": "online"
     };
     //final Map<String, dynamic> userApi = user.toJson();
     final response = await http
@@ -26,11 +31,7 @@ class CheckinProvider with ChangeNotifier {
   }
 
   Map<String, String> get headersToken {
-    return {
-      'Content-Type': 'application/json',
-      'x-token':
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVVUlEIjoiZTFkYmI1OTMtZGUwOC00NTQ3LWE1MmItNjUyZTNmZDMyMDA2IiwiSUQiOjI1LCJVc2VybmFtZSI6ImRvYW52aWVuQ1RLIiwiTmlja05hbWUiOiLEkG_DoG4gdmnDqm4gS2hvYSBDTlRUIiwiQXV0aG9yaXR5SWQiOiIzIiwiQnVmZmVyVGltZSI6ODY0MDAsImV4cCI6NDgwODc0OTc1MCwiaXNzIjoicW1QbHVzIiwibmJmIjoxNjUzMDUzNTUwfQ.EeapvBUnpbkZKhxRrrt-LudayRYapL4WNRrWsMNcP7c'
-    };
+    return {'Content-Type': 'application/json', 'x-token': Token.token};
   }
 
   onError(e) {

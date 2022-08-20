@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:checkin_app/components/loginpage_component/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
@@ -43,8 +45,8 @@ class _InputRegisterState extends State<InputRegister> {
         print(_userName);
         print(_password);
         dob = '${_dateTime.day}/${_dateTime.month}/${_dateTime.year}';
-        await authProvider.postUser(
-            _userName, _password, dob, _lastName, _firstName);
+        // await authProvider.postUser(
+        // _userName, _password, dob, _lastName, _firstName);
         Navigator.pushReplacementNamed(context, RouteName.loginPage);
       }
     }
