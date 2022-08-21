@@ -15,6 +15,7 @@ class CheckinProvider with ChangeNotifier {
       "viTri": "11.954546348293173, 108.4441818400426",
       "hinh thuc": "online"
     };
+    //final Map<String, dynamic> userApi = user.toJson();
     final response = await http
         .post(
           Uri.parse(AppUrl.checkin),

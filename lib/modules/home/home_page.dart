@@ -177,7 +177,8 @@ class _HomePageState extends State<HomePage> {
                 ? ''
                 : qrCode;
       });
-      if (qrCode.isNotEmpty) {
+
+      if (qrCode.isNotEmpty && qrCode != '-1') {
         var code = jsonDecode(qrCode);
 
         _checkinProvider.postCheckinUser(
