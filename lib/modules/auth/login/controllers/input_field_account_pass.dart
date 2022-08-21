@@ -119,12 +119,13 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
   }
 
   void doLogin() {
-    setState(() {
-      bool _check = formKey.currentState!.validate();
-      if (_check) {
-        // Uid.uid = widget._userController.text;
-        Navigator.pushNamed(context, RouteName.homePage);
-      } else {}
-    });
+    // setState(() {
+    //   bool _check = formKey.currentState!.validate();
+    //   if (_check) {
+    //     // Uid.uid = widget._userController.text;
+    //     Navigator.pushNamed(context, RouteName.homePage);
+    //   } else {}
+    // });
+    Navigator.pushNamed(context, RouteName.homePage);
   }
 }

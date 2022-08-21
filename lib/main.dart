@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           initialRoute: RouteName.loginPage,
+          // initialRoute: RouteName.qrScanPage,
+
           onGenerateRoute: router.Router.onGenerateRoute,
           debugShowCheckedModeBanner: false,
           theme: ThemeData().copyWith(

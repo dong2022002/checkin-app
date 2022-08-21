@@ -1,6 +1,7 @@
 import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:checkin_app/modules/auth/register/register_page.dart';
 import 'package:checkin_app/modules/checkin/checkin_page.dart';
+import 'package:checkin_app/modules/checkin/qr_scanner.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
 import 'package:checkin_app/modules/notify/notification_page.dart';
@@ -26,7 +27,10 @@ class Router {
       case RouteName.profilePage:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case RouteName.qrScanPage:
-        return MaterialPageRoute(builder: (_) => const QRScanPage());
+        return MaterialPageRoute(
+            builder: (_) => QrScanner(
+                  qrCode: settings.arguments as String,
+                ));
       default:
         {
           return MaterialPageRoute(

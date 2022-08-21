@@ -4,10 +4,18 @@ import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String qrCode = '';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -140,7 +148,8 @@ class HomePage extends StatelessWidget {
                   height: size.height * 0.04,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, RouteName.qrScanPage);
+                  // Navigator.pushNamed(context, RouteName.qrScanPage);
+                  scanQrCode();
                 },
               ),
             ),
@@ -148,5 +157,29 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> scanQrCode() async {
+    try {
+      final qrCode = await FlutterBarcodeScanner.scanBarcode(
+          '#5fa693', 'Cancel', true, ScanMode.QR);
+      if (!mounted) return;
+      setState(() {
+        this.qrCode = qrCode.isEmpty
+            ? ''
+            : qrCode == '-1'
+                ? ''
+                : qrCode;
+      });
+      if (qrCode.isNotEmpty) {
+        Navigator.pushNamed(
+          context,
+          RouteName.qrScanPage,
+          arguments: qrCode,
+        );
+      }
+    } on PlatformException {
+      qrCode = 'Failed scan ';
+    }
   }
 }
