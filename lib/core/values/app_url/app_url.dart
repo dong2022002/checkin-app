@@ -5,5 +5,5 @@ class AppUrl {
   // static const String register = baseUrl + '/api/member/createMember';
   // static const String update = baseUrl + '/api/member/updateMember';
   // static const String forgotPassword = baseUrl + '/forgot_password';
-  static const String checkin = baseUrl + '/api/checkin/createCheckin';
+  static const String checkin = baseUrl + 'diemDanh/createDiemDanh';
 }

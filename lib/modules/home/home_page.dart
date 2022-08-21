@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:checkin_app/components/homepage_component/icon_home_page.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
+import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,11 +18,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final CheckinProvider _checkinProvider = CheckinProvider();
+  UserProvider _userProvider = UserProvider();
+
   String qrCode = '';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    UserProvider _userProvider = UserProvider();
+
     String department = "CTK44B";
     //   _userProvider.user.departmentId == 57 ? "CTK44A" : "CTK44B";
     return Scaffold(
@@ -172,10 +178,15 @@ class _HomePageState extends State<HomePage> {
                 : qrCode;
       });
       if (qrCode.isNotEmpty) {
+        var code = jsonDecode(qrCode);
+
+        _checkinProvider.postCheckinUser(
+            code['suKienId'], _userProvider.user.iD);
+
         Navigator.pushNamed(
           context,
           RouteName.qrScanPage,
-          arguments: qrCode,
+          arguments: code['suKienId'],
         );
       }
     } on PlatformException {

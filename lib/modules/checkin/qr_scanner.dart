@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class QrScanner extends StatelessWidget {
-  final String qrCode;
+  final int qrCode;
   const QrScanner({Key? key, required this.qrCode}) : super(key: key);
 
   @override

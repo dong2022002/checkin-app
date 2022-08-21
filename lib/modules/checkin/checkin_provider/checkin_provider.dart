@@ -6,16 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class CheckinProvider with ChangeNotifier {
-  Future<void> postCheckinUser(String? code, int? id) async {
+  Future<void> postCheckinUser(int? code, int? id) async {
     final Map<String, dynamic> checkinApi = {
       "doanVienId": id,
-      "sukienId": int.parse(code!),
+      "sukienId": code,
       "lanDiemDanh": 1,
       "thoiGian": "T6, 01:35 PM, 05/08/2022",
       "viTri": "11.954546348293173, 108.4441818400426",
       "hinh thuc": "online"
     };
-    //final Map<String, dynamic> userApi = user.toJson();
     final response = await http
         .post(
           Uri.parse(AppUrl.checkin),
