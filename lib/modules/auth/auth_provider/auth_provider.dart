@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:checkin_app/core/api/token.dart';
+import 'package:checkin_app/core/md5/hash_code_md5.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/user.dart';
 
@@ -9,35 +10,53 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider extends ChangeNotifier {
-  // Future<void> postUser(String account, String password, String dob,
-  //     String lastName, String firstName) async {
-  //   final Map<String, dynamic> userApi = {
-  //     "firstname": firstName,
-  //     "lastname": lastName,
-  //     "uid": account,
-  //     "dob": dob,
-  //     "departmentId": 58
-  //   };
-  //   //final Map<String, dynamic> userApi = user.toJson();
-  //   final response = await http
-  //       .post(
-  //         Uri.parse(AppUrl.register),
-  //         body: json.encode(userApi),
-  //         headers: headersToken,
-  //       )
-  //       .catchError(onError);
-  //   //print(response.statusCode);
-  //   if (response.statusCode == 200) {
-  //     //   MessageBox(
-  //     //     action: null,
-  //     //     button: 'Yes',
-  //     //     content: 'Đăng ký thành công',
-  //     //     title: 'Thông báo',
-  //     //   );
-  //   } else {
-  //     throw Exception("Failed to post");
-  //   }
-  // }
+  Future<void> putUser(int id, String newPass) async {
+    var pass = HashCodeMD5().generateMd5(newPass);
+    final Map<String, dynamic> userApi = {
+      "ID": id,
+      "matKhau": pass,
+    };
+    //final Map<String, dynamic> userApi = user.toJson();
+    final response = await http
+        .put(
+          Uri.parse(AppUrl.changePassword),
+          body: json.encode(userApi),
+          headers: headersToken,
+        )
+        .catchError(onError);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      //   MessageBox(
+      //     action: null,
+      //     button: 'Yes',
+      //     content: 'Đăng ký thành công',
+      //     title: 'Thông báo',
+      //   );
+    } else {
+      throw Exception("Failed to post");
+    }
+  }
+
+  Future<void> putActiveUser(int id) async {
+    bool active = true;
+    final Map<String, dynamic> userApi = {
+      "ID": id,
+      "kichHoat": active,
+    };
+    //final Map<String, dynamic> userApi = user.toJson();
+    final response = await http
+        .put(
+          Uri.parse(AppUrl.activeUser),
+          body: json.encode(userApi),
+          headers: headersToken,
+        )
+        .catchError(onError);
+
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception("Failed to post");
+    }
+  }
 
   Future<List<User>> fetchUser() async {
     final reponse = await http

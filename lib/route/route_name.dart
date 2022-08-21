@@ -6,4 +6,5 @@ class RouteName {
   static const String notifacationDetailPage = 'NotifacationDetailPage';
   static const String profilePage = 'ProfilePage';
   static const String qrScanPage = 'QRScanPage';
+  static const String changePassword = 'changePassword';
 }

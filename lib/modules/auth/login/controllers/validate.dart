@@ -1,9 +1,7 @@
-import 'dart:convert';
-
+import 'package:checkin_app/core/md5/hash_code_md5.dart';
 import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto/crypto.dart' as crypto;
 
 class Validate {
   static UserProvider user = UserProvider();
@@ -25,28 +23,46 @@ class Validate {
     }
   }
 
-  static String? passValidate(
+  ///New Pass
+  static String? newPassValidate(value, _passController) {
+    if (value!.isEmpty) {
+      return 'Mật khẩu không được để trống';
+    }
+    return null;
+  }
+
+  static String? confirmPassValidate(
       value,
-      List<User> usersdata,
-      TextEditingController passController,
-      TextEditingController userController) {
-    String passUser = generateMd5(passController.text);
+      TextEditingController _confirmPassController,
+      TextEditingController _passController) {
     if (value!.isEmpty) {
       return 'Mật khẩu không được để trống';
     } else {
-      print(user.user.matKhau);
-      print(passController.text);
-      print(passUser);
-      if (user.user.matKhau == passUser &&
-          user.user.email == userController.text) {
+      if (_confirmPassController.text.compareTo(_passController.text) != 0) {
+        return 'mật khẩu xác nhận không đúng';
+      }
+    }
+    return null;
+  }
+
+  /// Password
+
+  static String? passValidate(value, List<User> usersdata,
+      TextEditingController passController, String emailUser) {
+    String passUser = HashCodeMD5().generateMd5(passController.text);
+    if (value!.isEmpty) {
+      return 'Mật khẩu không được để trống';
+    } else {
+      // print(user.user.matKhau);
+      // print(passController.text);
+      // print(emailUser);
+
+      // print(passUser);
+      if (user.user.matKhau == passUser && user.user.email == emailUser) {
       } else {
         return "Sai mật khẩu";
       }
     }
     return null;
   }
-}
-
-String generateMd5(String input) {
-  return crypto.md5.convert(utf8.encode(input)).toString();
 }

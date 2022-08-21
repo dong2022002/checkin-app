@@ -2,6 +2,7 @@ import 'package:checkin_app/components/loginpage_component/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
+import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/auth/login/controllers/validate.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,12 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
 
   //final List<User> _listUser = usersdata.map((e) => User.fromJson(e)).toList();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController _userController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
+
   bool _isloading = false;
   List<User> dataUser = [];
-
+  UserProvider user = UserProvider();
   late final String _userName, _password;
 
   @override
@@ -90,7 +92,7 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
                 isDense: true,
               ),
               validator: (value) => Validate.passValidate(
-                  value, dataUser, _passController, _userController),
+                  value, dataUser, _passController, _userController.text),
             ),
           ),
           const SizedBox(
@@ -122,8 +124,11 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
     setState(() {
       bool _check = formKey.currentState!.validate();
       if (_check) {
-        // Uid.uid = widget._userController.text;
-        Navigator.pushNamed(context, RouteName.homePage);
+        if (!user.user.kichHoat!) {
+          Navigator.pushNamed(context, RouteName.changePassword);
+        } else {
+          Navigator.pushNamed(context, RouteName.homePage);
+        }
       } else {}
     });
     // Navigator.pushNamed(context, RouteName.homePage);

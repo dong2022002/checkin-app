@@ -1,3 +1,4 @@
+import 'package:checkin_app/modules/auth/login/change_password_page.dart';
 import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:checkin_app/modules/auth/register/register_page.dart';
 import 'package:checkin_app/modules/checkin/qr_scanner.dart';
@@ -25,6 +26,8 @@ class Router {
             builder: (_) => const NotificationDetailPage());
       case RouteName.profilePage:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case RouteName.changePassword:
+        return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
       case RouteName.qrScanPage:
         return MaterialPageRoute(
             builder: (_) => QrScanner(
