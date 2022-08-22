@@ -211,9 +211,13 @@ class _HomePageState extends State<HomePage> {
                 ? ''
                 : qrCode;
       });
+<<<<<<< HEAD
       print(qrCode);
       print(qrCode);
 
+=======
+      print(_position);
+>>>>>>> 838508b (fix)
       if (qrCode.isNotEmpty && qrCode != '-1') {
         var code = jsonDecode(qrCode);
 
