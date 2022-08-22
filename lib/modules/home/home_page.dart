@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
             top: size.height * 0.6,
             bottom: 16,
             child: Container(
-              // margin: const EdgeInsets.only(bottom: 16),
+              // fixx
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -211,6 +211,8 @@ class _HomePageState extends State<HomePage> {
                 ? ''
                 : qrCode;
       });
+      print(qrCode);
+      print(qrCode);
 
       if (qrCode.isNotEmpty && qrCode != '-1') {
         var code = jsonDecode(qrCode);
