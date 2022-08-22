@@ -9,6 +9,7 @@ import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,12 +23,46 @@ class _HomePageState extends State<HomePage> {
   UserProvider _userProvider = UserProvider();
 
   String qrCode = '';
+
+  //lay vi tri location
+  Position? _position;
+
+  Future<Position> _determinePosition() async {
+    LocationPermission permission;
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location Permissions are denied');
+      }
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
+  void _getCurrentLocation() async {
+    Position position = await _determinePosition();
+    setState(() {
+      _position = position;
+    });
+  }
+
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
+  ///////////////////////// --location
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     String department = "CTK44B";
     //   _userProvider.user.departmentId == 57 ? "CTK44A" : "CTK44B";
+
     return Scaffold(
       backgroundColor: AppColors.kPrimaryLightColor,
       body: Stack(
@@ -154,7 +189,6 @@ class _HomePageState extends State<HomePage> {
                   height: size.height * 0.04,
                 ),
                 onPressed: () {
-                  // Navigator.pushNamed(context, RouteName.qrScanPage);
                   scanQrCode();
                 },
               ),
@@ -182,7 +216,7 @@ class _HomePageState extends State<HomePage> {
         var code = jsonDecode(qrCode);
 
         _checkinProvider.postCheckinUser(
-            code['suKienId'], _userProvider.user.iD);
+            code['suKienId'], _userProvider.user.iD, _position!);
 
         Navigator.pushNamed(
           context,
