@@ -1,6 +1,6 @@
 import 'package:checkin_app/components/loginpage_component/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
-import 'package:checkin_app/models/user.dart';
+import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/auth/login/controllers/validate.dart';
@@ -11,22 +11,18 @@ import 'package:provider/provider.dart';
 class InputFieldAccountPass extends StatefulWidget {
   const InputFieldAccountPass({Key? key}) : super(key: key);
 
-  // final TextEditingController _userController = TextEditingController();
-  // TextEditingController get userController => _userController;
   @override
   State<InputFieldAccountPass> createState() => _InputFieldAccountPassState();
 }
 
 class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
   bool _showPass = false;
-
-  //final List<User> _listUser = usersdata.map((e) => User.fromJson(e)).toList();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _userController = TextEditingController();
 
   bool _isloading = false;
-  List<User> dataUser = [];
+
   UserProvider user = UserProvider();
   late final String _userName, _password;
 
@@ -37,10 +33,12 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
     });
     Provider.of<AuthProvider>(context, listen: false).fetchUser().then((value) {
       setState(() {
-        dataUser = value;
+        user.setDataUser(value);
         _isloading = false;
+        if (!mounted) return;
       });
     });
+
     super.initState();
   }
 
@@ -68,7 +66,7 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
                 isDense: true,
               ),
               validator: (value) =>
-                  Validate.userValidate(value, dataUser, _userController),
+                  Validate.userValidate(value, user.dataUser, _userController),
               onSaved: (value) => _userName = value!,
             ),
           ),
@@ -92,7 +90,7 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
                 isDense: true,
               ),
               validator: (value) => Validate.passValidate(
-                  value, dataUser, _passController, _userController.text),
+                  value, user.dataUser, _passController, _userController.text),
             ),
           ),
           const SizedBox(
@@ -123,7 +121,9 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
   void doLogin() {
     setState(() {
       bool _check = formKey.currentState!.validate();
+
       if (_check) {
+        Provider.of<AuthProvider>(context, listen: false).getChiDoan(user);
         if (!user.user.kichHoat!) {
           Navigator.pushNamed(context, RouteName.changePassword);
         } else {
@@ -131,6 +131,5 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
         }
       } else {}
     });
-    // Navigator.pushNamed(context, RouteName.homePage);
   }
 }

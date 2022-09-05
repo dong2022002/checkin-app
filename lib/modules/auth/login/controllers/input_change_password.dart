@@ -1,10 +1,10 @@
+import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/components/loginpage_component/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
-import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/auth/login/controllers/validate.dart';
-import 'package:checkin_app/route/route_name.dart';
+import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,37 +27,41 @@ class _InputChangePasswordState extends State<InputChangePassword> {
 
   late String _password, _confirmPassword;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool _isloading = false;
-  List<User> dataUser = [];
+  final bool _isloading = false;
 
   @override
   void initState() {
-    setState(() {
-      _isloading = true;
-    });
-    Provider.of<AuthProvider>(context, listen: false).fetchUser().then((value) {
-      setState(() {
-        dataUser = value;
-        _isloading = false;
-      });
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    void Function() action = (() {});
 
     void doChangePass() async {
       final form = formKey.currentState;
       if (form!.validate()) {
         form.save();
 
-        await authProvider.putUser(user.user.iD!, _password);
-        await authProvider.putActiveUser(user.user.iD!);
-        Navigator.pushReplacementNamed(context, RouteName.loginPage);
+        authProvider.putUser(user.user.iD!, _password);
+        authProvider.putActiveUser(user.user.iD!);
+
+        showDialog(
+            context: context,
+            builder: (context) {
+              return BoxThongBao(
+                icon: Icons.check_circle,
+                onPress: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const LoginPage()),
+                      (route) => false);
+                },
+                tittle: 'Thay đổi mật khẩu thành công',
+                textArlert: 'Tiếp tục',
+              );
+            });
       }
     }
 
@@ -82,7 +86,7 @@ class _InputChangePasswordState extends State<InputChangePassword> {
               obscureText: !_showPass,
               decoration: passInputDecoration(label: "Mật khẩu cũ"),
               validator: (value) => Validate.passValidate(
-                  value, dataUser, _passController, user.user.email!),
+                  value, user.dataUser, _passController, user.user.email!),
               onSaved: (value) => _password = value!,
             ),
           ),

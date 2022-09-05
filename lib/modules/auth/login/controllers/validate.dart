@@ -53,11 +53,6 @@ class Validate {
     if (value!.isEmpty) {
       return 'Mật khẩu không được để trống';
     } else {
-      // print(user.user.matKhau);
-      // print(passController.text);
-      // print(emailUser);
-
-      // print(passUser);
       if (user.user.matKhau == passUser && user.user.email == emailUser) {
       } else {
         return "Sai mật khẩu";

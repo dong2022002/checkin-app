@@ -42,19 +42,19 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['CreatedAt'] = this.createdAt;
-    data['UpdatedAt'] = this.updatedAt;
-    data['hoTen'] = this.hoTen;
-    data['mssv'] = this.mssv;
-    data['chiDoanId'] = this.chiDoanId;
-    data['dienThoai'] = this.dienThoai;
-    data['email'] = this.email;
-    data['matKhau'] = this.matKhau;
-    data['kichHoat'] = this.kichHoat;
-    data['biKhoa'] = this.biKhoa;
-    data['thoiGianDangNhapLanCuoi'] = this.thoiGianDangNhapLanCuoi;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['CreatedAt'] = createdAt;
+    data['UpdatedAt'] = updatedAt;
+    data['hoTen'] = hoTen;
+    data['mssv'] = mssv;
+    data['chiDoanId'] = chiDoanId;
+    data['dienThoai'] = dienThoai;
+    data['email'] = email;
+    data['matKhau'] = matKhau;
+    data['kichHoat'] = kichHoat;
+    data['biKhoa'] = biKhoa;
+    data['thoiGianDangNhapLanCuoi'] = thoiGianDangNhapLanCuoi;
     return data;
   }
 }

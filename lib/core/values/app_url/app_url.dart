@@ -8,4 +8,5 @@ class AppUrl {
   static const String checkin = baseUrl + '/diemDanh/createDiemDanh';
   static const String changePassword = baseUrl + '/doanVien/changePassword';
   static const String activeUser = baseUrl + '/doanVien/activeAccount';
+  static const String chiDoan = baseUrl + '/capCoSo/findCapCoSo';
 }
