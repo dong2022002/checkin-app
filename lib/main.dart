@@ -2,6 +2,7 @@ import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
+import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:checkin_app/route/router.dart' as router;
 import 'package:flutter/material.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => AuthProvider()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
-          ChangeNotifierProvider(create: (_) => CheckinProvider())
+          ChangeNotifierProvider(create: (_) => CheckinProvider()),
+          ChangeNotifierProvider(create: (_) => DataCheckin())
         ],
         child: MaterialApp(
           initialRoute: RouteName.loginPage,

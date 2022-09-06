@@ -4,10 +4,11 @@ import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/components/homepage_component/icon_home_page.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/models/chidoan.dart';
-import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
+import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
+import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
+import 'package:checkin_app/modules/checkin/component/datetime_now.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,9 @@ class _HomePageState extends State<HomePage> {
   //lay vi tri location
   Position? _position;
 
+  var code = -1;
+  var now = DateTime.now();
+
   Future<Position> _determinePosition() async {
     LocationPermission permission;
 
@@ -45,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     return await Geolocator.getCurrentPosition();
   }
 
-  void _getCurrentLocation() async {
+  Future<void> _getCurrentLocation() async {
     Position position = await _determinePosition();
     setState(() {
       _position = position;
@@ -57,7 +61,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
   }
 
   ///////////////////////// --location
@@ -67,7 +70,8 @@ class _HomePageState extends State<HomePage> {
     var user = UserProvider();
     bool isloading = true;
 
-    return Consumer<UserProvider>(builder: (context, user, child) {
+    return Consumer2<UserProvider, DataCheckin>(
+        builder: (context, user, checkin, child) {
       return Scaffold(
         backgroundColor: AppColors.kPrimaryLightColor,
         body: Stack(
@@ -197,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                     height: size.height * 0.04,
                   ),
                   onPressed: () {
-                    scanQrCode(user);
+                    scanQrCode(user, checkin, context);
                   },
                 ),
               ),
@@ -208,7 +212,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> scanQrCode(UserProvider user) async {
+  Future<void> scanQrCode(
+      UserProvider user, DataCheckin checkin, context) async {
     try {
       final qrCode = await FlutterBarcodeScanner.scanBarcode(
           '#5fa693', 'Cancel', true, ScanMode.QR);
@@ -219,42 +224,89 @@ class _HomePageState extends State<HomePage> {
                 ? ''
                 : qrCode;
       });
-      if (!mounted) return;
 
       if (qrCode.isNotEmpty && qrCode != '-1') {
-        var code = jsonDecode(qrCode);
-        if (_position != null) {
-          _checkinProvider.postCheckinUser(
-              code['suKienId'], user.user.iD, _position!);
-          showDialog(
-              context: context,
-              builder: (context) {
-                return BoxThongBao(
-                  icon: Icons.check_circle,
-                  onPress: () {
-                    Navigator.pop(context);
-                  },
-                  tittle: 'Điểm danh thành công',
-                  textArlert: 'Tiếp tục',
-                );
+        var jsonCode = jsonDecode(qrCode);
+        code = jsonCode['suKienId'];
+        _checkinProvider.getDanhSachLanDiemDanh(code);
+        _getCurrentLocation().whenComplete(() {
+          var list = checkin.dsLanDiemDanh;
+          var now = DateTime.now();
+          if (dieuKienDiemDanh) {
+            LanDiemDanh lanDiemDanh = list.firstWhere(
+              (e) =>
+                  (e.thoiGianDong!.isAfter(now) && e.thoiGianMo!.isBefore(now)),
+              orElse: () => LanDiemDanh(lanThu: -1),
+            );
+
+            if (lanDiemDanh.lanThu != -1) {
+              _checkinProvider
+                  .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
+                      user.user.hoTen, user.user.mssv, user.user.dienThoai)
+                  .whenComplete(() {
+                var listCheckin = checkin.dsDiemDanhSK;
+                bool statusCheckin = false;
+                for (var ck in listCheckin) {
+                  if (ck.suKienId == code &&
+                      ck.lanDiemDanh == lanDiemDanh.lanThu) {
+                    statusCheckin = true;
+                  }
+                }
+                if (!statusCheckin) {
+                  _checkinProvider.postCheckinUser(code, user.user.iD,
+                      _position!, lanDiemDanh.lanThu, context);
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return BoxThongBao(
+                          icon: Icons.check_circle,
+                          onPress: () {
+                            Navigator.pop(context);
+                          },
+                          tittle: 'Đã điểm danh rồi',
+                          textArlert: 'Xác nhận',
+                        );
+                      });
+                }
               });
-        } else {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return BoxThongBao(
-                  icon: Icons.check_circle,
-                  onPress: () {
-                    Navigator.pop(context);
-                  },
-                  tittle: 'Không tìm thấy GPS vị trí',
-                  textArlert: 'Thử lại',
-                );
-              });
-        }
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BoxThongBao(
+                      icon: Icons.check_circle,
+                      onPress: () {
+                        Navigator.pop(context);
+                      },
+                      tittle: 'Không tìm thấy phiên điểm danh',
+                      textArlert: 'Thử lại',
+                    );
+                  });
+            }
+          }
+        });
+        showDialog(
+            context: context,
+            builder: (context) {
+              return BoxThongBao(
+                icon: Icons.check_circle,
+                onPress: () {
+                  Navigator.pop(context);
+                },
+                tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
+                textArlert: 'xác nhận',
+              );
+            });
+
+        if (!mounted) return;
       }
     } on PlatformException {
       qrCode = 'Failed scan ';
     }
+  }
+
+  bool get dieuKienDiemDanh {
+    return (_position != null && DataCheckin().dsLanDiemDanh.isNotEmpty);
   }
 }
