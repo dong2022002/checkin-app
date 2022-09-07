@@ -6,7 +6,7 @@ import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/checkin.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
-import 'package:checkin_app/modules/checkin/component/datetime_now.dart';
+import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,7 +21,9 @@ class CheckinProvider with ChangeNotifier {
       "doanVienId": id,
       "sukienId": code,
       "lanDiemDanh": lanDiemDanh,
-      "thoiGian": DatetimeNow.getDatetimeNow(DateTime.now()),
+      "thoiGian": DatetimeFormat().getWeekday(DateTime.now().weekday) +
+          ", " +
+          DatetimeFormat.getDatetimeNow(DateTime.now()),
       "viTri": "${position.latitude}, ${position.longitude}",
       "hinhThuc": false
     };

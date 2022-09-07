@@ -8,7 +8,7 @@ class LanDiemDanh {
   int? lanThu;
   DateTime? thoiGianMo;
   DateTime? thoiGianDong;
-  DateFormat dateFormat = DateFormat("h:mm a dd-MM-yyyy");
+  DateFormat dateFormat = DateFormat("h:mm a dd/MM/yyyy");
   List<String>? date;
   LanDiemDanh(
       {this.iD,
@@ -27,12 +27,8 @@ class LanDiemDanh {
     lanThu = json['lanThu'];
     var tgMo = json['thoiGianMo'].toString().split(', ');
     var tgDong = json['thoiGianDong'].toString().split(', ');
-    date = tgMo[2].trim().split('/');
-    thoiGianMo = dateFormat
-        .parse('${tgMo[1].trim()} ${date![0]}-${date![1]}-${date![2]}');
-    date = tgDong[2].trim().split('/');
-    thoiGianDong = dateFormat
-        .parse('${tgDong[1].trim()} ${date![0]}-${date![1]}-${date![2]}');
+    thoiGianMo = dateFormat.parse('${tgMo[1].trim()} ${tgMo[2].trim()}');
+    thoiGianDong = dateFormat.parse('${tgDong[1].trim()} ${tgDong[2].trim()}');
   }
 
   Map<String, dynamic> toJson() {

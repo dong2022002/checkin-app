@@ -121,7 +121,6 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
   void doLogin() {
     setState(() {
       bool _check = formKey.currentState!.validate();
-
       if (_check) {
         Provider.of<AuthProvider>(context, listen: false).getChiDoan(user);
         if (!user.user.kichHoat!) {

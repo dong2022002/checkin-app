@@ -8,7 +8,7 @@ import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
-import 'package:checkin_app/modules/checkin/component/datetime_now.dart';
+import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -232,6 +232,7 @@ class _HomePageState extends State<HomePage> {
         _getCurrentLocation().whenComplete(() {
           var list = checkin.dsLanDiemDanh;
           var now = DateTime.now();
+
           if (dieuKienDiemDanh) {
             LanDiemDanh lanDiemDanh = list.firstWhere(
               (e) =>
