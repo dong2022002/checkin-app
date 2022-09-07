@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 class DatetimeFormat {
   static DateTime now = DateTime.now();
   static DateTime test = DateTime(2022, 9, 6, 20, 0);
-  static getDatetimeNow(now) {
-    return DateFormat("h:mm a, dd/MM/yyyy").format(now);
+  static getDatetimeNow(DateTime now) {
+    String week = DatetimeFormat().getWeekday(now.weekday);
+    return week + ', ' + DateFormat("h:mm a, dd/MM/yyyy").format(now);
   }
 
   String getWeekday(weekday) {

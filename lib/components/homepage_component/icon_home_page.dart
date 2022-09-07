@@ -1,3 +1,4 @@
+import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 
 class IconHomePage extends StatelessWidget {
@@ -13,7 +14,12 @@ class IconHomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        IconButton(iconSize: 32, onPressed: (() {}), icon: Icon(icon)),
+        IconButton(
+            iconSize: 32,
+            onPressed: (() {
+              Navigator.pushNamed(context, RouteName.historyCheckin);
+            }),
+            icon: Icon(icon)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Text(

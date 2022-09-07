@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Checkin {
   int? iD;
   String? createdAt;
@@ -5,12 +7,13 @@ class Checkin {
   int? doanVienId;
   int? suKienId;
   int? lanDiemDanh;
-  String? thoiGian;
+  DateTime? thoiGian;
   String? viTri;
   bool? hinhThuc;
   String? hoTen;
   String? mssv;
   String? dienThoai;
+  DateFormat dateFormat = DateFormat("h:mm a dd/MM/yyyy");
 
   Checkin(
       {this.iD,
@@ -33,7 +36,8 @@ class Checkin {
     doanVienId = json['doanVienId'];
     suKienId = json['suKienId'];
     lanDiemDanh = json['lanDiemDanh'];
-    thoiGian = json['thoiGian'];
+    var tg = json['thoiGian'].toString().split(', ');
+    thoiGian = dateFormat.parse('${tg[1].trim()} ${tg[2].trim()}');
     viTri = json['viTri'];
     hinhThuc = json['hinhThuc'];
     hoTen = json['hoTen'];

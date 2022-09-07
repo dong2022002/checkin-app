@@ -3,6 +3,8 @@ import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
+import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/DataHistoryCheckinProvider.dart';
+import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/HistoryChekinProvider.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:checkin_app/route/router.dart' as router;
 import 'package:flutter/material.dart';
@@ -25,7 +27,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => AuthProvider()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => CheckinProvider()),
-          ChangeNotifierProvider(create: (_) => DataCheckin())
+          ChangeNotifierProvider(create: (_) => DataCheckin()),
+          ChangeNotifierProvider(create: (_) => DataHistoryCheckinProvider()),
+          ChangeNotifierProvider(create: (_) => HistoryChekinProvider()),
         ],
         child: MaterialApp(
           initialRoute: RouteName.loginPage,

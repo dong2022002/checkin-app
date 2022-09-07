@@ -10,6 +10,6 @@ class AppUrl {
       baseUrl + '/lanDiemDanh/getLanDiemDanhList';
   static const String danhSachDiemDanhSK =
       baseUrl + '/diemDanh/getDiemDanhList';
-
+  static const String danhSachSuKien = baseUrl + "/suKien/getSuKienList";
   static const String danhSachDiemDanh = baseUrl + "/diemDanh/getDiemDanhList";
 }

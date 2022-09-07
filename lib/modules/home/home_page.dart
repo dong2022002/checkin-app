@@ -67,8 +67,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var user = UserProvider();
-    bool isloading = true;
 
     return Consumer2<UserProvider, DataCheckin>(
         builder: (context, user, checkin, child) {
@@ -146,11 +144,19 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: const [
-                          IconHomePage(icon: Icons.history, text: 'Lịch sử'),
+                        children: [
                           IconHomePage(
-                              icon: Icons.chat_bubble_outline,
-                              text: 'Gửi phản ánh'),
+                              icon: Icons.history,
+                              text: 'Lịch sử',
+                              onPress: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.historyCheckin);
+                              }),
+                          IconHomePage(
+                            icon: Icons.chat_bubble_outline,
+                            text: 'Gửi phản ánh',
+                            onPress: () {},
+                          ),
                         ],
                       ),
                     ),
@@ -164,8 +170,7 @@ class _HomePageState extends State<HomePage> {
                           IconButton(
                               iconSize: 32,
                               onPressed: (() {
-                                Navigator.pushNamed(
-                                    context, RouteName.notifacationPage);
+                                //bug
                               }),
                               icon: const Icon(Icons.notifications_none)),
                           IconButton(
@@ -228,7 +233,7 @@ class _HomePageState extends State<HomePage> {
       if (qrCode.isNotEmpty && qrCode != '-1') {
         var jsonCode = jsonDecode(qrCode);
         code = jsonCode['suKienId'];
-        _checkinProvider.getDanhSachLanDiemDanh(code);
+        CheckinProvider().getDanhSachLanDiemDanh(code);
         _getCurrentLocation().whenComplete(() {
           var list = checkin.dsLanDiemDanh;
           var now = DateTime.now();
@@ -241,7 +246,7 @@ class _HomePageState extends State<HomePage> {
             );
 
             if (lanDiemDanh.lanThu != -1) {
-              _checkinProvider
+              CheckinProvider()
                   .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
                       user.user.hoTen, user.user.mssv, user.user.dienThoai)
                   .whenComplete(() {

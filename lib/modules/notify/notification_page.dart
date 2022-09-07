@@ -1,4 +1,4 @@
-import 'package:checkin_app/components/notifycation_component/event_item.dart';
+import 'package:checkin_app/modules/history_checkin/components/event_item.dart';
 import 'package:checkin_app/components/notifycation_component/header_text.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +43,6 @@ class NotificationPage extends StatelessWidget {
                     pathImage: 'assets/images/image_demo.jpeg',
                     headerText:
                         'Đăng ký tình nguyện viên tham gia show truyền hình thực tế "chuyến đi thanh xuân" của đài truyền hình HTV thành phố Hồ Chí Minh',
-                    auth: 'Trần Diệu Đông',
                     time: '10 phút trước',
                   ),
                   const HeaderText(text: 'Trước đó'),
@@ -58,7 +57,6 @@ class NotificationPage extends StatelessWidget {
                           pathImage: 'assets/images/image_demo.jpeg',
                           headerText:
                               '$index. Đăng ký tình nguyện viên tham gia show truyền hình thực tế "chuyến đi thanh xuân" của đài truyền hình HTV thành phố Hồ Chí Minh',
-                          auth: 'Dương Mỹ Lộc',
                           time: '10 phút trước',
                         );
                       },

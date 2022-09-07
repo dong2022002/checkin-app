@@ -21,9 +21,7 @@ class CheckinProvider with ChangeNotifier {
       "doanVienId": id,
       "sukienId": code,
       "lanDiemDanh": lanDiemDanh,
-      "thoiGian": DatetimeFormat().getWeekday(DateTime.now().weekday) +
-          ", " +
-          DatetimeFormat.getDatetimeNow(DateTime.now()),
+      "thoiGian": DatetimeFormat.getDatetimeNow(DateTime.now()),
       "viTri": "${position.latitude}, ${position.longitude}",
       "hinhThuc": false
     };
@@ -68,6 +66,9 @@ class CheckinProvider with ChangeNotifier {
           (json.decode(response.body)['data']['list'] as List)
               .map((data) => LanDiemDanh.fromJson(data))
               .toList());
+      var tongSoLanDiemDanh = json.decode(response.body)['data'];
+
+      _dataCheckin.setTongSoLanDiemDanh(tongSoLanDiemDanh['total']);
     } else {
       throw Exception('Failed to load');
     }
@@ -86,6 +87,7 @@ class CheckinProvider with ChangeNotifier {
           (json.decode(response.body)['data']['list'] as List)
               .map((data) => Checkin.fromJson(data))
               .toList());
+      notifyListeners();
     } else {
       throw Exception('Failed to load');
     }

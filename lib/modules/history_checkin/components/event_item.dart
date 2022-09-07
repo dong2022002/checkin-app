@@ -1,5 +1,6 @@
-import 'package:checkin_app/components/notifycation_component/grey_text.dart';
+import 'package:checkin_app/components/grey_text.dart';
 import 'package:checkin_app/core/values/app_style.dart';
+import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 
@@ -7,14 +8,14 @@ class EventItem extends StatelessWidget {
   const EventItem(
       {Key? key,
       required this.pathImage,
-      required this.auth,
       required this.headerText,
-      required this.time})
+      required this.time,
+      this.idSuKien})
       : super(key: key);
-  final String pathImage;
-  final String headerText;
-  final String auth;
-  final String time;
+  final String? pathImage;
+  final String? headerText;
+  final int? idSuKien;
+  final String? time;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class EventItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: InkWell(
         onTap: (() {
-          Navigator.pushNamed(context, RouteName.notifacationDetailPage);
+          Navigator.pushNamed(context, RouteName.detailHistoryCheckin,
+              arguments: idSuKien);
         }),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +37,8 @@ class EventItem extends StatelessWidget {
               height: size.height * 0.1,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(pathImage), fit: BoxFit.cover),
+                      image: NetworkImage(AppUrl.baseUrl + '/' + pathImage!),
+                      fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(100)),
             ),
             Padding(
@@ -61,8 +64,7 @@ class EventItem extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GreyText(text: auth),
-                        GreyText(text: time),
+                        GreyText(text: time!),
                       ],
                     ),
                   )

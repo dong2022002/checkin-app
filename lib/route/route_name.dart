@@ -7,4 +7,6 @@ class RouteName {
   static const String profilePage = 'ProfilePage';
   static const String qrScanPage = 'QRScanPage';
   static const String changePassword = 'changePassword';
+  static const String historyCheckin = 'historyCheckin';
+  static const String detailHistoryCheckin = 'detailHistoryCheckin';
 }

@@ -1,6 +1,8 @@
 import 'package:checkin_app/modules/auth/login/change_password_page.dart';
 import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:checkin_app/modules/auth/register/register_page.dart';
+import 'package:checkin_app/modules/history_checkin/detail_history_checkin.dart';
+import 'package:checkin_app/modules/history_checkin/history_checkin.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
 import 'package:checkin_app/modules/notify/notification_page.dart';
@@ -18,6 +20,9 @@ class Router {
       case RouteName.homePage:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const HomePage());
+      case RouteName.historyCheckin:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const HistoryCheckin());
 
       case RouteName.notifacationPage:
         return MaterialPageRoute(builder: (_) => const NotificationPage());
@@ -28,11 +33,11 @@ class Router {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case RouteName.changePassword:
         return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
-      // case RouteName.qrScanPage:
-      //   return MaterialPageRoute(
-      //       builder: (_) => QrScanner(
-      //             qrCode: settings.arguments as int,
-      //           ));
+      case RouteName.detailHistoryCheckin:
+        return MaterialPageRoute(
+            builder: (_) => DetailHistoryCheckin(
+                  idSuKien: settings.arguments as int,
+                ));
       default:
         {
           return MaterialPageRoute(
