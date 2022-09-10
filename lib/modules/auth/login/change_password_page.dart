@@ -12,26 +12,29 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
-    return Background(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
+    return Scaffold(
+        body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: SizedBox(
+          height: size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: size.height * 0.1),
+              const Text(
                 'Thay đổi mật khẩu lần đầu đăng nhập',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 20.0),
-              InputChangePassword(),
+              SizedBox(height: size.height * 0.1),
+              const InputChangePassword(),
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

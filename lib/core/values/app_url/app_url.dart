@@ -1,5 +1,6 @@
 class AppUrl {
-  static const String baseUrl = 'http://10.0.2.2:8080/api';
+  // static const String baseUrl = 'http://10.0.2.2:8080/api';
+  static const String baseUrl = 'http://192.168.1.7:8080/api';
 
   static const String login = baseUrl + '/doanVien/getDoanVienList';
   static const String checkin = baseUrl + '/diemDanh/createDiemDanh';
@@ -8,6 +9,9 @@ class AppUrl {
   static const String chiDoan = baseUrl + '/capCoSo/findCapCoSo';
   static const String danhSachLanDiemDanh =
       baseUrl + '/lanDiemDanh/getLanDiemDanhList';
+  static const String danhSachNhomSK =
+      baseUrl + '/nhomSuKien/getNhomSuKienList';
+  static const String timSKTheoIdSK = "/suKien/findSuKien";
   static const String danhSachDiemDanhSK =
       baseUrl + '/diemDanh/getDiemDanhList';
   static const String danhSachSuKien = baseUrl + "/suKien/getSuKienList";

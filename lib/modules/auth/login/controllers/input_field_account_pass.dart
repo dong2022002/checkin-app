@@ -1,5 +1,6 @@
 import 'package:checkin_app/components/loginpage_component/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
+import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
@@ -31,12 +32,16 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
     setState(() {
       _isloading = true;
     });
+
     Provider.of<AuthProvider>(context, listen: false).fetchUser().then((value) {
       setState(() {
         user.setDataUser(value);
         _isloading = false;
         if (!mounted) return;
       });
+    }).catchError((Object e, StackTrace stackTrace) {
+      print(e.toString());
+      return 'Another value';
     });
 
     super.initState();
@@ -44,6 +49,7 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Form(
       // autovalidateMode: AutovalidateMode.onUserInteraction,
       key: formKey,
@@ -54,6 +60,7 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
             padding: const EdgeInsets.all(8),
             child: TextFormField(
               controller: _userController,
+
               // keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 border: loginOutlineInputBorder(),
@@ -93,9 +100,18 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
                   value, user.dataUser, _passController, _userController.text),
             ),
           ),
-          const SizedBox(
-            height: 10.0,
+          SizedBox(height: size.height * 0.02),
+          SizedBox(
+            width: size.width * 0.8,
+            child: Text('Quên mật khẩu?',
+                textAlign: TextAlign.right,
+                style: AppStyles.h5.copyWith(
+                    fontSize: 14,
+                    letterSpacing: 0.7,
+                    color: AppColors.kPrimaryColor,
+                    fontWeight: FontWeight.w600)),
           ),
+          SizedBox(height: size.height * 0.03),
           Button(
             text: 'Đăng nhập',
             press: doLogin,
@@ -107,9 +123,8 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
 
   OutlineInputBorder loginOutlineInputBorder() {
     return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(100),
-        borderSide:
-            const BorderSide(color: AppColors.kPrimaryLightColor, width: 5.0));
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: AppColors.kGreyText, width: 1));
   }
 
   void showTogglePassWord() {
@@ -122,11 +137,10 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
     setState(() {
       bool _check = formKey.currentState!.validate();
       if (_check) {
-        Provider.of<AuthProvider>(context, listen: false).getChiDoan(user);
         if (!user.user.kichHoat!) {
           Navigator.pushNamed(context, RouteName.changePassword);
         } else {
-          Navigator.pushNamed(context, RouteName.homePage);
+          Navigator.pushReplacementNamed(context, RouteName.rootPage);
         }
       } else {}
     });

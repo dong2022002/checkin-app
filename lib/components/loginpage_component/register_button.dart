@@ -13,7 +13,7 @@ class RegisterButton extends StatelessWidget {
       children: <Widget>[
         const Text(
           "Chưa có tài khoản ? ",
-          style: TextStyle(color: AppColors.kPrimaryColor),
+          style: TextStyle(color: AppColors.kTextColor),
         ),
         GestureDetector(
           onTap: () {

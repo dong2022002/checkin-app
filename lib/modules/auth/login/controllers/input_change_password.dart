@@ -1,10 +1,12 @@
 import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/components/loginpage_component/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
+import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/auth/login/controllers/validate.dart';
 import 'package:checkin_app/modules/auth/login/login_page.dart';
+import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,32 +38,26 @@ class _InputChangePasswordState extends State<InputChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
-
     void doChangePass() async {
       final form = formKey.currentState;
       if (form!.validate()) {
         form.save();
 
-        authProvider.putUser(user.user.iD!, _password);
-        authProvider.putActiveUser(user.user.iD!);
-
-        showDialog(
-            context: context,
-            builder: (context) {
-              return BoxThongBao(
-                icon: Icons.check_circle,
-                onPress: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => const LoginPage()),
-                      (route) => false);
-                },
-                tittle: 'Thay đổi mật khẩu thành công',
-                textArlert: 'Tiếp tục',
-              );
-            });
+        AuthProvider().putUser(user.user.iD!, _password);
+        AuthProvider().putActiveUser(user.user.iD!).whenComplete(() {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.check_circle,
+                  onPress: () {
+                    Navigator.pushReplacementNamed(context, RouteName.rootPage);
+                  },
+                  tittle: 'Thay đổi mật khẩu thành công',
+                  textArlert: 'Tiếp tục',
+                );
+              });
+        });
       }
     }
 
@@ -156,6 +152,7 @@ class _InputChangePasswordState extends State<InputChangePassword> {
   InputDecoration userDecoration({String text = ""}) {
     return InputDecoration(
       border: loginOutlineInputBorder(),
+      labelStyle: AppStyles.h5.copyWith(color: const Color(0xff414141)),
       labelText: text,
       fillColor: AppColors.kPrimaryLightColor,
       filled: true,
@@ -168,7 +165,7 @@ class _InputChangePasswordState extends State<InputChangePassword> {
 
   OutlineInputBorder loginOutlineInputBorder() {
     return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(10),
         borderSide:
             const BorderSide(color: AppColors.kPrimaryLightColor, width: 5.0));
   }

@@ -96,5 +96,6 @@ Map<String, String> get headersToken {
 }
 
 onError(e) {
-  throw Exception("failed to connect" + e);
+  print('không kết nối dc');
+  // throw Exception("failed to connect" + e);
 }

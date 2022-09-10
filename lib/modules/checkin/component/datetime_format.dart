@@ -8,6 +8,15 @@ class DatetimeFormat {
     return week + ', ' + DateFormat("h:mm a, dd/MM/yyyy").format(now);
   }
 
+  static getDMYTime(DateTime dateTime) {
+    String week = DatetimeFormat().getWeekday(dateTime.weekday);
+    return week + ', ' + DateFormat("dd-MM-yyyy").format(dateTime);
+  }
+
+  static getTime(DateTime dateTime) {
+    return DateFormat("h:mm a").format(dateTime);
+  }
+
   String getWeekday(weekday) {
     switch (weekday) {
       case 7:
