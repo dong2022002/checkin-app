@@ -2,8 +2,7 @@ import 'package:intl/intl.dart';
 
 class LanDiemDanh {
   int? iD;
-  String? createdAt;
-  String? updatedAt;
+
   int? suKienId;
   int? lanThu;
   DateTime? thoiGianMo;
@@ -12,8 +11,6 @@ class LanDiemDanh {
   List<String>? date;
   LanDiemDanh(
       {this.iD,
-      this.createdAt,
-      this.updatedAt,
       this.suKienId,
       this.lanThu,
       this.thoiGianMo,
@@ -21,8 +18,7 @@ class LanDiemDanh {
 
   LanDiemDanh.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    createdAt = json['CreatedAt'];
-    updatedAt = json['UpdatedAt'];
+
     suKienId = json['suKienId'];
     lanThu = json['lanThu'];
     var tgMo = json['thoiGianMo'].toString().split(', ');
@@ -34,8 +30,7 @@ class LanDiemDanh {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
-    data['CreatedAt'] = createdAt;
-    data['UpdatedAt'] = updatedAt;
+
     data['suKienId'] = suKienId;
     data['lanThu'] = lanThu;
     data['thoiGianMo'] = thoiGianMo;

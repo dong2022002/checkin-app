@@ -23,7 +23,7 @@ class CheckinProvider with ChangeNotifier {
       "lanDiemDanh": lanDiemDanh,
       "thoiGian": DatetimeFormat.getDatetimeNow(DateTime.now()),
       "viTri": "${position.latitude}, ${position.longitude}",
-      "hinhThuc": false
+      "hinhThuc": true
     };
 
     //final Map<String, dynamic> userApi = user.toJson();

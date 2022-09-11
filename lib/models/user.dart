@@ -1,7 +1,6 @@
 class User {
   int? iD;
-  String? createdAt;
-  String? updatedAt;
+
   String? hoTen;
   String? mssv;
   int? chiDoanId;
@@ -14,8 +13,6 @@ class User {
 
   User(
       {this.iD,
-      this.createdAt,
-      this.updatedAt,
       this.hoTen,
       this.mssv,
       this.chiDoanId,
@@ -28,8 +25,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    createdAt = json['CreatedAt'];
-    updatedAt = json['UpdatedAt'];
+
     hoTen = json['hoTen'];
     mssv = json['mssv'];
     chiDoanId = json['chiDoanId'];
@@ -44,8 +40,7 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
-    data['CreatedAt'] = createdAt;
-    data['UpdatedAt'] = updatedAt;
+
     data['hoTen'] = hoTen;
     data['mssv'] = mssv;
     data['chiDoanId'] = chiDoanId;

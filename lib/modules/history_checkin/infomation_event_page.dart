@@ -1,12 +1,15 @@
-import 'package:checkin_app/components/notifycation_detail_component/header_text_detail.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/route/route_name.dart';
+import 'package:checkin_app/core/values/app_url/app_url.dart';
+import 'package:checkin_app/models/event.dart';
 import 'package:flutter/material.dart';
 
 class InfomationEventPage extends StatelessWidget {
-  const InfomationEventPage({Key? key}) : super(key: key);
-
+  const InfomationEventPage(
+      {Key? key, required this.tenNhomSK, required this.event})
+      : super(key: key);
+  final String tenNhomSK;
+  final Event event;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,6 +31,18 @@ class InfomationEventPage extends StatelessWidget {
             },
           ),
         ),
+        title: SizedBox(
+          width: size.width * 0.63,
+          child: Text(
+            tenNhomSK,
+            textAlign: TextAlign.center,
+            style: AppStyles.h4.copyWith(
+              fontSize: 24,
+              color: AppColors.kPrimaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -36,22 +51,74 @@ class InfomationEventPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const HeaderTextDeTail(
-                  text:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit '),
-              Container(
-                // margin: const EdgeInsets.symmetric(horizontal: 24),
-                height: size.height * 0.3,
-                decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/image_demo.jpeg'),
-                        fit: BoxFit.cover),
-                    borderRadius: BorderRadius.circular(12)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Text(
+                  event.tieuDe!,
+                  style: AppStyles.h4.copyWith(
+                      color: AppColors.kTextColor.withOpacity(.65),
+                      fontWeight: FontWeight.bold),
+                  maxLines: 3,
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              event.anhChinh!.isEmpty
+                  ? Container()
+                  : Container(
+                      height: size.height * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Image.network(
+                        AppUrl.baseUrl + '/' + event.anhChinh!,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProcess) {
+                          if (loadingProcess == null) {
+                            return child;
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Nội dung",
+                        textAlign: TextAlign.start,
+                        style: AppStyles.h4.copyWith(
+                          fontSize: 20,
+                          color: AppColors.kGreyText,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (() {}),
+                        child: Text(
+                          "Link liên kết",
+                          textAlign: TextAlign.start,
+                          style: AppStyles.h4.copyWith(
+                            fontSize: 20,
+                            color: AppColors.kGreyText,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const Divider(
+                color: AppColors.kGreyText,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
-                  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+                  event.noiDung!,
                   style: AppStyles.h5,
                 ),
               )

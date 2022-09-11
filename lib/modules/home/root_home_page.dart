@@ -5,12 +5,15 @@ import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
+import 'package:checkin_app/models/user.dart';
+import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/profile/profile_page.dart';
 import 'package:checkin_app/route/route_name.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -69,6 +72,21 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
+  late bool _isLoading;
+  @override
+  void initState() {
+    _isLoading = true;
+    Provider.of<AuthProvider>(context, listen: false)
+        .getChiDoan(UserProvider().user.chiDoanId!)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+        if (!mounted) return;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -81,7 +99,7 @@ class _RootPageState extends State<RootPage> {
           title: Padding(
             padding: const EdgeInsets.all(18),
             child: SizedBox(
-              width: size.width,
+              width: size.width * 0.8,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -108,10 +126,14 @@ class _RootPageState extends State<RootPage> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
         ),
-        body: IndexedStack(
-          index: _bottomNavIndex,
-          children: pages,
-        ),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : IndexedStack(
+                index: _bottomNavIndex,
+                children: pages,
+              ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             scanQrCode(user, checkin, context);

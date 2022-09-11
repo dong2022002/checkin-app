@@ -5,6 +5,7 @@ import 'package:checkin_app/components/grey_text.dart';
 import 'package:checkin_app/components/homepage_component/icon_home_page.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
+import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
@@ -64,21 +65,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  late bool _isActive;
-
   var user = UserProvider();
   @override
   void initState() {
-    _isActive = true;
-
-    Provider.of<AuthProvider>(context, listen: false)
-        .getChiDoan(user)
-        .then((_) {
-      setState(() {
-        _isActive = false;
-      });
-    });
-
     super.initState();
   }
 
@@ -115,20 +104,18 @@ class _HomePageState extends State<HomePage> {
                         // gradient: AppColors.kPrimaryGradient)
                         // border: Border.all(color: AppColors.kPrimaryColor),
                       ),
-                      child: !_isActive
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 4),
-                              child: Text(
-                                '${user.user.hoTen} -  ${user.chiDoan.ten}',
-                                style: AppStyles.h5.copyWith(
-                                    fontSize: 22,
-                                    color:
-                                        const Color(0xff0B4619).withOpacity(.8),
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ))
-                          : Container(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 4),
+                        child: Text(
+                          '${user.user.hoTen}  -  ${user.chiDoan.ten}',
+                          style: AppStyles.h5.copyWith(
+                              fontSize: 22,
+                              color: const Color(0xff0B4619).withOpacity(.8),
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                     // SizedBox(height: size.height * 0.04),
                     Container(

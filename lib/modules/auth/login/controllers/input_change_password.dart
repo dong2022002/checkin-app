@@ -51,7 +51,8 @@ class _InputChangePasswordState extends State<InputChangePassword> {
                 return BoxThongBao(
                   icon: Icons.check_circle,
                   onPress: () {
-                    Navigator.pushReplacementNamed(context, RouteName.rootPage);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RouteName.loginPage, (route) => false);
                   },
                   tittle: 'Thay đổi mật khẩu thành công',
                   textArlert: 'Tiếp tục',
@@ -61,58 +62,60 @@ class _InputChangePasswordState extends State<InputChangePassword> {
       }
     }
 
-    return Form(
-      // autovalidateMode: AutovalidateMode.onUserInteraction,
-      key: formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: registerPadding(),
-            child: TextFormField(
-              enabled: false,
-              decoration: userDecoration(text: "${user.user.email}"),
+    return SafeArea(
+      child: Form(
+        // autovalidateMode: AutovalidateMode.onUserInteraction,
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: registerPadding(),
+              child: TextFormField(
+                enabled: false,
+                decoration: userDecoration(text: "${user.user.email}"),
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Padding(
-            padding: registerPadding(),
-            child: TextFormField(
-              controller: _passController,
-              obscureText: !_showPass,
-              decoration: passInputDecoration(label: "Mật khẩu cũ"),
-              validator: (value) => Validate.passValidate(
-                  value, user.dataUser, _passController, user.user.email!),
-              onSaved: (value) => _password = value!,
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: registerPadding(),
+              child: TextFormField(
+                controller: _passController,
+                obscureText: !_showPass,
+                decoration: passInputDecoration(label: "Mật khẩu cũ"),
+                validator: (value) => Validate.passValidate(
+                    value, user.dataUser, _passController, user.user.email!),
+                onSaved: (value) => _password = value!,
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Padding(
-            padding: registerPadding(),
-            child: TextFormField(
-              controller: _newPassController,
-              obscureText: !_showPass,
-              decoration: passInputDecoration(label: "Mật khẩu mới"),
-              validator: (value) =>
-                  Validate.newPassValidate(value!, _newPassController),
-              onSaved: (value) => _password = value!,
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: registerPadding(),
+              child: TextFormField(
+                controller: _newPassController,
+                obscureText: !_showPass,
+                decoration: passInputDecoration(label: "Mật khẩu mới"),
+                validator: (value) =>
+                    Validate.newPassValidate(value!, _newPassController),
+                onSaved: (value) => _password = value!,
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Padding(
-            padding: registerPadding(),
-            child: TextFormField(
-              controller: _confirmPassController,
-              obscureText: !_showPass,
-              decoration: passInputDecoration(label: "Nhập lại mật khẩu mới"),
-              validator: (value) => Validate.confirmPassValidate(
-                  value!, _confirmPassController, _newPassController),
-              onSaved: (value) => _confirmPassword = value!,
+            const SizedBox(height: 10.0),
+            Padding(
+              padding: registerPadding(),
+              child: TextFormField(
+                controller: _confirmPassController,
+                obscureText: !_showPass,
+                decoration: passInputDecoration(label: "Nhập lại mật khẩu mới"),
+                validator: (value) => Validate.confirmPassValidate(
+                    value!, _confirmPassController, _newPassController),
+                onSaved: (value) => _confirmPassword = value!,
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Button(text: 'Xác nhận', press: doChangePass),
-        ],
+            const SizedBox(height: 10.0),
+            Button(text: 'Xác nhận', press: doChangePass),
+          ],
+        ),
       ),
     );
   }

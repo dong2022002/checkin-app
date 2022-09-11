@@ -1,7 +1,6 @@
 class Event {
   int? iD;
-  String? createdAt;
-  String? updatedAt;
+
   String? tieuDe;
   String? noiDung;
   String? anhChinh;
@@ -12,8 +11,6 @@ class Event {
 
   Event(
       {this.iD,
-      this.createdAt,
-      this.updatedAt,
       this.tieuDe,
       this.noiDung,
       this.anhChinh,
@@ -24,8 +21,7 @@ class Event {
 
   Event.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    createdAt = json['CreatedAt'];
-    updatedAt = json['UpdatedAt'];
+
     tieuDe = json['tieuDe'];
     noiDung = json['noiDung'];
     anhChinh = json['anhChinh'];
@@ -39,8 +35,7 @@ class Event {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
-    data['CreatedAt'] = createdAt;
-    data['UpdatedAt'] = updatedAt;
+
     data['tieuDe'] = tieuDe;
     data['noiDung'] = noiDung;
     data['anhChinh'] = anhChinh;

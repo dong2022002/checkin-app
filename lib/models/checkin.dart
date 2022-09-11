@@ -2,8 +2,7 @@ import 'package:intl/intl.dart';
 
 class Checkin {
   int? iD;
-  String? createdAt;
-  String? updatedAt;
+
   int? doanVienId;
   int? suKienId;
   int? lanDiemDanh;
@@ -17,8 +16,6 @@ class Checkin {
 
   Checkin(
       {this.iD,
-      this.createdAt,
-      this.updatedAt,
       this.doanVienId,
       this.suKienId,
       this.lanDiemDanh,
@@ -31,8 +28,7 @@ class Checkin {
 
   Checkin.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    createdAt = json['CreatedAt'];
-    updatedAt = json['UpdatedAt'];
+
     doanVienId = json['doanVienId'];
     suKienId = json['suKienId'];
     lanDiemDanh = json['lanDiemDanh'];
@@ -48,8 +44,7 @@ class Checkin {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ID'] = iD;
-    data['CreatedAt'] = createdAt;
-    data['UpdatedAt'] = updatedAt;
+
     data['doanVienId'] = doanVienId;
     data['suKienId'] = suKienId;
     data['lanDiemDanh'] = lanDiemDanh;

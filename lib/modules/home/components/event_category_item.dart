@@ -81,7 +81,7 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                             setState(() {
                               _isActive = !_isActive;
                               _isActive
-                                  ? _height = size.height * 0.21
+                                  ? _height = size.height * 0.16
                                   : _height = 0;
                             });
                           },
@@ -132,12 +132,8 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                                         if (dataEvent.dsSuKien[index].nhomId ==
                                             _idNhomSk) {
                                           return EventItems(
-                                            tenSK: dataEvent
-                                                .dsSuKien[index].tieuDe,
-                                            pathImage: dataEvent
-                                                .dsSuKien[index].anhChinh,
-                                            suKienID:
-                                                dataEvent.dsSuKien[index].iD,
+                                            tenNhomSK: widget.tenNhomSK,
+                                            event: dataEvent.dsSuKien[index],
                                           );
                                         } else {
                                           return Container();
@@ -147,7 +143,7 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                                   } else {
                                     return Container(
                                       width: double.infinity,
-                                      height: size.height * 0.2,
+                                      height: size.height * 0.13,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         boxShadow: const [
@@ -181,11 +177,10 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                       ),
                     ),
                     _isActive
-                        ? const Divider(
+                        ? Divider(
                             height: 20,
                             thickness: 1.5,
-                            color: AppColors.kGreyText,
-                          )
+                            color: AppColors.kGreyText.withOpacity(.5))
                         : Container()
                   ],
                 )

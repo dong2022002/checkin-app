@@ -1,3 +1,4 @@
+import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/modules/auth/login/change_password_page.dart';
 import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:checkin_app/modules/auth/register/register_page.dart';
@@ -18,7 +19,12 @@ class Router {
     switch (settings.name) {
       case RouteName.informationEventPage:
         return PageTransition(
-            child: const InfomationEventPage(), type: PageTransitionType.fade);
+            child: InfomationEventPage(
+              tenNhomSK:
+                  (settings.arguments as InfomationEventPageAr).tenNhomSK,
+              event: (settings.arguments as InfomationEventPageAr).event,
+            ),
+            type: PageTransitionType.fade);
       case RouteName.qrScanPage:
         return PageTransition(
             child: const ScanPage(), type: PageTransitionType.bottomToTop);
@@ -66,4 +72,10 @@ class DetailHistoryCheckinAr {
   late int idSuKien;
   late String tenSk;
   DetailHistoryCheckinAr(this.idSuKien, this.tenSk);
+}
+
+class InfomationEventPageAr {
+  late String tenNhomSK;
+  late Event event;
+  InfomationEventPageAr(this.tenNhomSK, this.event);
 }

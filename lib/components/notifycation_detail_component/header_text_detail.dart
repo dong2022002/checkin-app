@@ -14,6 +14,8 @@ class HeaderTextDeTail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       child: Text(
         text,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
         style: AppStyles.h4.copyWith(fontWeight: FontWeight.w500),
       ),
     );
