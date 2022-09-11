@@ -11,7 +11,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Color color = AppColors.kPrimaryColor.withOpacity(.8);
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Scaffold(
         backgroundColor: AppColors.kBackgroundColor,
@@ -43,10 +42,6 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.grey.shade300,
                       ),
                     ),
-                    // const CircleAvatar(
-                    //   radius: 50.0,
-                    //   backgroundImage: AssetImage('assets/images/dunloc.jpg'),
-                    // ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -58,33 +53,32 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-
                     const SizedBox(
                       height: 10,
                     ),
                     Column(
                       children: [
-                        const InfoItem(
-                          text: '2014446',
+                        InfoItem(
+                          text: '${user.user.mssv}',
                           title: 'MSSV',
                           icon: Icons.person,
                         ),
-                        const InfoItem(
-                          text: '2014446@dlu.edu.vn',
+                        InfoItem(
+                          text: '${user.user.email}',
                           title: 'Email',
                           icon: Icons.email,
                         ),
-                        const InfoItem(
-                          text: '123456789',
+                        InfoItem(
+                          text: '${user.user.dienThoai}',
                           title: 'Số điện thoại',
                           icon: Icons.phone,
                         ),
-                        const InfoItem(
-                          text: 'CTK44B',
+                        InfoItem(
+                          text: '${user.chiDoan.ten}',
                           title: 'Chi đoàn',
                           icon: Icons.local_fire_department,
                         ),
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: size.height * 0.075,
                           // decoration: BoxDecoration(
@@ -94,28 +88,31 @@ class ProfilePage extends StatelessWidget {
                           //   ),
                           // ),
                           // ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.exit_to_app,
-                                  color: Colors.black26.withOpacity(.6),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Text(
-                                  'Đăng xuất',
-                                  style: AppStyles.h6.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        AppColors.kTextColor.withOpacity(.75),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.exit_to_app,
+                                    color: Colors.black26.withOpacity(.6),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: Text(
+                                    'Đăng xuất',
+                                    style: AppStyles.h6.copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          AppColors.kTextColor.withOpacity(.75),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

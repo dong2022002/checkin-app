@@ -103,268 +103,124 @@ class _HomePageState extends State<HomePage> {
                     colorBlendMode: BlendMode.modulate,
                     color: AppColors.kBackgroundColor.withOpacity(.4),
                   )),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: size.width * 0.8,
-                    height: size.height * 0.075,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      // gradient: AppColors.kPrimaryGradient)
-                      // border: Border.all(color: AppColors.kPrimaryColor),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: size.width * 0.8,
+                      height: size.height * 0.075,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        // gradient: AppColors.kPrimaryGradient)
+                        // border: Border.all(color: AppColors.kPrimaryColor),
+                      ),
+                      child: !_isActive
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 4),
+                              child: Text(
+                                '${user.user.hoTen} -  ${user.chiDoan.ten}',
+                                style: AppStyles.h5.copyWith(
+                                    fontSize: 22,
+                                    color:
+                                        const Color(0xff0B4619).withOpacity(.8),
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ))
+                          : Container(),
                     ),
-                    child: !_isActive
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 4),
-                            child: Text(
-                              '${user.user.hoTen} -  ${user.chiDoan.ten}',
-                              style: AppStyles.h5.copyWith(
-                                  fontSize: 22,
-                                  color:
-                                      const Color(0xff0B4619).withOpacity(.8),
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ))
-                        : Container(),
-                  ),
-                  // SizedBox(height: size.height * 0.04),
-                  Container(
-                    height: size.height * 0.05,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 3,
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.search)),
-                        SizedBox(
-                          width: size.width * 0.5,
-                          child: const TextField(
-                            decoration: InputDecoration(
-                                hintText: "Tìm kiếm", border: InputBorder.none),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 4, right: 4),
-                    child: Text(
-                      'Sự kiện liên chi đoàn',
-                      style: AppStyles.h5.copyWith(
-                        fontSize: 20,
-                        color: AppColors.kPrimaryColor,
+                    // SizedBox(height: size.height * 0.04),
+                    Container(
+                      height: size.height * 0.05,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 3,
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.search)),
+                          SizedBox(
+                            width: size.width * 0.5,
+                            child: const TextField(
+                              decoration: InputDecoration(
+                                  hintText: "Tìm kiếm",
+                                  border: InputBorder.none),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                  const Divider(
-                    color: AppColors.kPrimaryColor,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.6,
-                    child: SingleChildScrollView(
-                      child: SafeArea(
-                        child: Column(
-                          children: [
-                            FutureBuilder(
-                              future: HistoryChekinProvider()
-                                  .getDanhSachNhomSK(user.chiDoan.parentId),
-                              builder: ((context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  if (dataEvent.dsNhomSuKien.isEmpty) {
-                                    return Center(
-                                        child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Hiện không có sự kiện điểm danh',
-                                        style: AppStyles.h5,
-                                      ),
-                                    ));
-                                  } else {
-                                    return EventCategory(
-                                      dsNhomSK: dataEvent.dsNhomSuKien,
-                                      idChiDoan: user.chiDoan.iD!,
-                                    );
-                                  }
-                                } else {
-                                  return const CircularProgressIndicator();
-                                }
-                              }),
-                            ),
-                          ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 16, left: 4, right: 4),
+                      child: Text(
+                        'Sự kiện liên chi đoàn',
+                        style: AppStyles.h5.copyWith(
+                          fontSize: 20,
+                          color: AppColors.kPrimaryColor,
                         ),
                       ),
                     ),
-                  ),
-                  const Divider(
-                    color: AppColors.kPrimaryColor,
-                  ),
-                ],
+                    const Divider(
+                      color: AppColors.kPrimaryColor,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.6,
+                      child: SingleChildScrollView(
+                        child: SafeArea(
+                          child: Column(
+                            children: [
+                              FutureBuilder(
+                                future: HistoryChekinProvider()
+                                    .getDanhSachNhomSK(user.chiDoan.parentId),
+                                builder: ((context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (dataEvent.dsNhomSuKien.isEmpty) {
+                                      return Center(
+                                          child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Hiện không có sự kiện điểm danh',
+                                          style: AppStyles.h5,
+                                        ),
+                                      ));
+                                    } else {
+                                      return EventCategory(
+                                        dsNhomSK: dataEvent.dsNhomSuKien,
+                                        idChiDoan: user.chiDoan.iD!,
+                                      );
+                                    }
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                }),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.kPrimaryColor,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       );
     }));
-
-    // return Consumer2<UserProvider, DataCheckin>(
-    //     builder: (context, user, checkin, child) {
-    //   return Scaffold(
-    //     backgroundColor: AppColors.kPrimaryLightColor,
-    //     body: Stack(
-    //       children: [
-    //         SafeArea(
-    //           child: Container(
-    //             margin: const EdgeInsets.all(16),
-    //             height: double.infinity,
-    //             width: double.infinity,
-    //             decoration: BoxDecoration(
-    //                 color: AppColors.kPrimaryColor,
-    //                 borderRadius: BorderRadius.circular(16)),
-    //             child: Column(
-    //               // crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 Padding(
-    //                   padding: const EdgeInsets.only(top: 28),
-    //                   child: Text(
-    //                     'Điểm danh'.toUpperCase(),
-    //                     style: AppStyles.h4.copyWith(
-    //                         fontWeight: FontWeight.bold, color: Colors.white),
-    //                   ),
-    //                 ),
-    //                 Padding(
-    //                   padding: const EdgeInsets.symmetric(vertical: 24),
-    //                   child: SizedBox(
-    //                     height: size.height * 0.2,
-    //                     child: const Image(
-    //                         image: AssetImage('assets/images/logo_dlu_2.png')),
-    //                   ),
-    //                 ),
-    //                 Text(
-    //                   "${user.user.hoTen}",
-    //                   style: const TextStyle(
-    //                       fontWeight: FontWeight.bold,
-    //                       color: Colors.white,
-    //                       fontSize: 20),
-    //                 ),
-    //                 user.chiDoan.ten == null
-    //                     ? const Text("loading ...")
-    //                     : Padding(
-    //                         padding: const EdgeInsets.symmetric(vertical: 12),
-    //                         child: Text(
-    //                           "${user.chiDoan.ten}",
-    //                           style: const TextStyle(
-    //                               fontWeight: FontWeight.bold,
-    //                               color: Colors.white,
-    //                               fontSize: 18),
-    //                         ),
-    //                       )
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           left: 16,
-    //           right: 16,
-    //           top: size.height * 0.6,
-    //           bottom: 16,
-    //           child: Container(
-    //             // fixx
-    //             decoration: const BoxDecoration(
-    //                 color: Colors.white,
-    //                 borderRadius: BorderRadius.only(
-    //                     bottomLeft: Radius.circular(16),
-    //                     bottomRight: Radius.circular(16))),
-
-    //             child: Column(
-    //               children: [
-    //                 const Spacer(flex: 2),
-    //                 Padding(
-    //                   padding: const EdgeInsets.symmetric(vertical: 18),
-    //                   child: Row(
-    //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //                     children: [
-    //                       IconHomePage(
-    //                           icon: Icons.history,
-    //                           text: 'Lịch sử',
-    //                           onPress: () {
-    //                             Navigator.pushNamed(
-    //                                 context, RouteName.historyCheckin);
-    //                           }),
-    //                       IconHomePage(
-    //                         icon: Icons.chat_bubble_outline,
-    //                         text: 'Gửi phản ánh',
-    //                         onPress: () {},
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 const Spacer(flex: 2),
-    //                 const Divider(thickness: 1),
-    //                 Padding(
-    //                   padding: const EdgeInsets.symmetric(vertical: 8),
-    //                   child: Row(
-    //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //                     children: [
-    //                       IconButton(
-    //                           iconSize: 32,
-    //                           onPressed: (() {
-    //                             //bug
-    //                           }),
-    //                           icon: const Icon(Icons.notifications_none)),
-    //                       IconButton(
-    //                         iconSize: 32,
-    //                         icon: Image.asset('assets/images/menu.png'),
-    //                         onPressed: () {
-    //                           Navigator.pushNamed(
-    //                               context, RouteName.profilePage);
-    //                         },
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 const Spacer(flex: 1)
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         Positioned(
-    //           left: 0,
-    //           right: 0,
-    //           top: size.height * 0.82,
-    //           child: Container(
-    //             width: 60,
-    //             height: 60,
-    //             decoration: const BoxDecoration(
-    //               color: AppColors.kPrimaryColor,
-    //               shape: BoxShape.circle,
-    //             ),
-    //             child: IconButton(
-    //               icon: Image.asset(
-    //                 'assets/images/scan.png',
-    //                 height: size.height * 0.04,
-    //               ),
-    //               onPressed: () {
-    //                 scanQrCode(user, checkin, context);
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // });
   }
 
   Future<void> scanQrCode(

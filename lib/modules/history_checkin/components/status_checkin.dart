@@ -8,12 +8,12 @@ class StatusCheckin {
     bool chuaDiemDanh = kiemTraDieuKien2(lanDiemDanh);
     if (!kt) {
       if (chuaDiemDanh) {
-        return 'Chưa điểm danh';
+        return 0;
       } else {
-        return 'Vắng';
+        return -1;
       }
     } else {
-      return 'Đã điểm danh';
+      return 1;
     }
   }
 

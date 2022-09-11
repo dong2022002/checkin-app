@@ -15,13 +15,39 @@ class LanDiemDanhItem extends StatefulWidget {
   final DateTime beginTime;
   final DateTime endTime;
   final int lanDiemDanh;
-  final String statusCheckin;
+  final int statusCheckin;
 
   @override
   State<LanDiemDanhItem> createState() => _LanDiemDanhState();
 }
 
 class _LanDiemDanhState extends State<LanDiemDanhItem> {
+  late String _statusCheckin;
+  late IconData _iconStatusCheckin;
+  late Color _colorStatusCheckin;
+  @override
+  void initState() {
+    switch (widget.statusCheckin) {
+      case -1:
+        _statusCheckin = "Vắng";
+        _iconStatusCheckin = Icons.cancel;
+        _colorStatusCheckin = Colors.red;
+        break;
+      case 0:
+        _statusCheckin = "Chưa điểm danh";
+        _iconStatusCheckin = Icons.today;
+        _colorStatusCheckin = Colors.orange;
+        break;
+      case 1:
+        _statusCheckin = "Đã điểm danh";
+        _iconStatusCheckin = Icons.check_circle;
+        _colorStatusCheckin = AppColors.kPrimaryColor;
+        break;
+      default:
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -72,17 +98,17 @@ class _LanDiemDanhState extends State<LanDiemDanhItem> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
-                widget.statusCheckin,
+                _statusCheckin,
                 style: AppStyles.h5.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.kPrimaryColor,
+                  color: _colorStatusCheckin,
                 ),
               ),
             ),
-            const Icon(
-              Icons.check_circle,
-              color: AppColors.kPrimaryColor,
+            Icon(
+              _iconStatusCheckin,
+              color: _colorStatusCheckin,
             )
           ],
         ),
