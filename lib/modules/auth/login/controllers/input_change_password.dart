@@ -1,14 +1,12 @@
 import 'package:checkin_app/components/box_thong_bao.dart';
-import 'package:checkin_app/components/loginpage_component/button.dart';
+import 'package:checkin_app/components/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/auth/login/controllers/validate.dart';
-import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class InputChangePassword extends StatefulWidget {
   const InputChangePassword({
@@ -29,7 +27,6 @@ class _InputChangePasswordState extends State<InputChangePassword> {
 
   late String _password, _confirmPassword;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final bool _isloading = false;
 
   @override
   void initState() {

@@ -1,4 +1,3 @@
-import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
 import 'package:checkin_app/modules/home/components/event_category_item.dart';
 import 'package:flutter/material.dart';

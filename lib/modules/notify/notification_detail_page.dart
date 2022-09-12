@@ -1,6 +1,6 @@
-import 'package:checkin_app/components/notifycation_detail_component/grey_text_detail.dart';
-import 'package:checkin_app/components/notifycation_detail_component/header_text_detail.dart';
-import 'package:checkin_app/components/notifycation_detail_component/image_auth.dart';
+import 'package:checkin_app/components/grey_text_detail.dart';
+import 'package:checkin_app/components/header_text_detail.dart';
+import 'package:checkin_app/components/image_auth.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';

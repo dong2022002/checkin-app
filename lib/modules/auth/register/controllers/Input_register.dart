@@ -1,13 +1,11 @@
 // ignore_for_file: file_names
 
-import 'package:checkin_app/components/loginpage_component/button.dart';
+import 'package:checkin_app/components/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/register/controllers/validate_register.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class InputRegister extends StatefulWidget {
   const InputRegister({Key? key}) : super(key: key);
@@ -35,7 +33,6 @@ class _InputRegisterState extends State<InputRegister> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    AuthProvider authProvider = Provider.of<AuthProvider>(context);
     void Function() action = (() {});
     String dob = "";
     void doRegister() async {

@@ -18,7 +18,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -38,11 +37,9 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: router.Router.onGenerateRoute,
           debugShowCheckedModeBanner: false,
           theme: ThemeData().copyWith(
-            // change the focus border color of the TextField
             colorScheme: ThemeData()
                 .colorScheme
                 .copyWith(primary: AppColors.kPrimaryColor),
-            // change the focus border color when the errorText is set
             errorColor: Colors.red,
           ),
         ));

@@ -5,20 +5,16 @@ import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
-import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/profile/profile_page.dart';
-import 'package:checkin_app/route/route_name.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class RootPage extends StatefulWidget {
@@ -203,7 +199,6 @@ class _RootPageState extends State<RootPage> {
                     break;
                   }
                 }
-                print(statusCheckin);
                 if (!statusCheckin) {
                   CheckinProvider().postCheckinUser(code, user.user.iD,
                       _position!, lanDiemDanh.lanThu, context);

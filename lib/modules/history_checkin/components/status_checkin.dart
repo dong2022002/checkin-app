@@ -1,6 +1,5 @@
 import 'package:checkin_app/models/checkin.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
-import 'package:flutter/material.dart';
 
 class StatusCheckin {
   static statusCheckin(LanDiemDanh lanDiemDanh, List<Checkin> listCheckin) {

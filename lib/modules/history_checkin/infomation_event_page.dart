@@ -3,6 +3,7 @@ import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class InfomationEventPage extends StatelessWidget {
   const InfomationEventPage(
@@ -44,88 +45,143 @@ class InfomationEventPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Text(
-                  event.tieuDe!,
-                  style: AppStyles.h4.copyWith(
-                      color: AppColors.kTextColor.withOpacity(.65),
-                      fontWeight: FontWeight.bold),
-                  maxLines: 3,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              event.anhChinh!.isEmpty
-                  ? Container()
-                  : Container(
-                      height: size.height * 0.3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Image.network(
-                        AppUrl.baseUrl + '/' + event.anhChinh!,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProcess) {
-                          if (loadingProcess == null) {
-                            return child;
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        },
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height * 0.85,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      child: Text(
+                        event.tieuDe!,
+                        style: AppStyles.h4.copyWith(
+                            color: AppColors.kTextColor.withOpacity(.65),
+                            fontWeight: FontWeight.bold),
+                        maxLines: 3,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Nội dung",
-                        textAlign: TextAlign.start,
-                        style: AppStyles.h4.copyWith(
-                          fontSize: 20,
-                          color: AppColors.kGreyText,
+                    event.anhChinh!.isEmpty
+                        ? Container()
+                        : Container(
+                            height: size.height * 0.3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Image.network(
+                              AppUrl.baseUrl + '/' + event.anhChinh!,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, child, loadingProcess) {
+                                if (loadingProcess == null) {
+                                  return child;
+                                } else {
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                            ),
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Nội dung",
+                              textAlign: TextAlign.start,
+                              style: AppStyles.h4.copyWith(
+                                fontSize: 20,
+                                color: AppColors.kGreyText,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: (() {}),
+                              child: Text(
+                                "Link liên kết",
+                                textAlign: TextAlign.start,
+                                style: AppStyles.h4.copyWith(
+                                  fontSize: 20,
+                                  color: AppColors.kGreyText,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                      InkWell(
-                        onTap: (() {}),
-                        child: Text(
-                          "Link liên kết",
-                          textAlign: TextAlign.start,
-                          style: AppStyles.h4.copyWith(
-                            fontSize: 20,
-                            color: AppColors.kGreyText,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    const Divider(
+                      color: AppColors.kGreyText,
+                    ),
+                    Html(
+                      data: event.noiDung!,
+                      style: {
+                        "p": Style(
+                            fontSize: const FontSize(16),
+                            color: AppColors.kTextColor.withOpacity(.7))
+                      },
+                    )
+                  ],
                 ),
               ),
-              const Divider(
-                color: AppColors.kGreyText,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  event.noiDung!,
-                  style: AppStyles.h5,
-                ),
-              )
-            ],
-          ),
+            ),
+            const Divider(
+              color: AppColors.kGreyText,
+            ),
+            event.choPhepDoanVienKhacChiDoanThamGia!
+                ? DoanVienKhacChiDoanThamGia(
+                    color: AppColors.kPrimaryColor.withOpacity(.8),
+                    iconData: Icons.check,
+                    text: "Cho phép đoàn viên khác chi đoàn tham gia",
+                  )
+                : DoanVienKhacChiDoanThamGia(
+                    text: "Không cho phép đoàn viên khác chi đoàn tham gia",
+                    iconData: Icons.cancel,
+                    color: Colors.orange.withOpacity(.8))
+          ],
         ),
       ),
+    );
+  }
+}
+
+class DoanVienKhacChiDoanThamGia extends StatelessWidget {
+  const DoanVienKhacChiDoanThamGia({
+    Key? key,
+    required this.text,
+    required this.iconData,
+    required this.color,
+  }) : super(key: key);
+  final String text;
+  final IconData iconData;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+            child: Text(
+          text,
+          style: AppStyles.h5.copyWith(
+            fontSize: 14,
+            color: color,
+          ),
+        )),
+        Icon(
+          iconData,
+          color: color,
+        )
+      ],
     );
   }
 }

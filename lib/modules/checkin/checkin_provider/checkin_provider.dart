@@ -7,13 +7,12 @@ import 'package:checkin_app/models/checkin.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 class CheckinProvider with ChangeNotifier {
-  DataCheckin _dataCheckin = DataCheckin();
+  final DataCheckin _dataCheckin = DataCheckin();
   // ---- POST---------
   Future<void> postCheckinUser(
       int? code, int? id, Position position, lanDiemDanh, context) async {

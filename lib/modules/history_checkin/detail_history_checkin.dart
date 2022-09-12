@@ -1,14 +1,10 @@
-import 'dart:math';
-
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/components/lan_diem_danh.dart';
 import 'package:checkin_app/modules/history_checkin/components/status_checkin.dart';
-import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/HistoryChekinProvider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

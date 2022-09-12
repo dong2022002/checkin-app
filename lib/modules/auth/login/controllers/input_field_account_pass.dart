@@ -1,7 +1,6 @@
-import 'package:checkin_app/components/loginpage_component/button.dart';
+import 'package:checkin_app/components/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/auth/login/controllers/validate.dart';
@@ -39,10 +38,7 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
         _isloading = false;
         if (!mounted) return;
       });
-    }).catchError((Object e, StackTrace stackTrace) {
-      print(e.toString());
-      return 'Another value';
-    });
+    }).catchError((Object e, StackTrace stackTrace) {});
 
     super.initState();
   }

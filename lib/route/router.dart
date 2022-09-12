@@ -8,7 +8,6 @@ import 'package:checkin_app/modules/history_checkin/infomation_event_page.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/home/root_home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
-import 'package:checkin_app/modules/notify/notification_page.dart';
 import 'package:checkin_app/modules/profile/profile_page.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';

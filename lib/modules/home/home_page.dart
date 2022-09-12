@@ -1,25 +1,16 @@
 import 'dart:convert';
 
 import 'package:checkin_app/components/box_thong_bao.dart';
-import 'package:checkin_app/components/grey_text.dart';
-import 'package:checkin_app/components/homepage_component/icon_home_page.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
-import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
-import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
 import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/DataHistoryCheckinProvider.dart';
 import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/HistoryChekinProvider.dart';
-import 'package:checkin_app/modules/home/components/button_event.dart';
 import 'package:checkin_app/modules/home/components/event_category.dart';
-import 'package:checkin_app/modules/home/components/event_items.dart';
-import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:geolocator/geolocator.dart';
@@ -251,7 +242,6 @@ class _HomePageState extends State<HomePage> {
                     break;
                   }
                 }
-                print(statusCheckin);
                 if (!statusCheckin) {
                   _checkinProvider.postCheckinUser(code, user.user.iD,
                       _position!, lanDiemDanh.lanThu, context);

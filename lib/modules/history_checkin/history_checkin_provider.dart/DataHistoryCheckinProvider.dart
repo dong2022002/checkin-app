@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
 import 'package:flutter/cupertino.dart';
