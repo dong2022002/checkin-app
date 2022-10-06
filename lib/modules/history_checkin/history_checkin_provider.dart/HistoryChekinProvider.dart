@@ -34,6 +34,27 @@ class HistoryChekinProvider with ChangeNotifier {
     }
   }
 
+  Future<void> getcacSuKienDoanVienThamGia(idDoanVien) async {
+    final response = await http
+        .get(
+            Uri.parse(
+                AppUrl.timCacSuKienDoanVienThamGia + "?doanVienId=$idDoanVien"),
+            headers: headersToken)
+        .catchError(onError);
+    if (response.statusCode == 200) {
+      _historyCheckinProvider.setDSToanBoSuKienDoanVien(
+          (json.decode(response.body)['data']['list'] as List)
+              .map((data) => Event.fromJson(data))
+              .toList());
+      // var tongSK = json.decode(response.body)['data'];
+
+      // _historyCheckinProvider.setDSToanBoSuKienDoanVien(tongSK['total']);
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
   Future<void> getDanhSachNhomSK(idLienChiDoan) async {
     final response = await http
         .get(Uri.parse(AppUrl.danhSachNhomSK + "?lienChiDoanId=$idLienChiDoan"),
@@ -47,6 +68,20 @@ class HistoryChekinProvider with ChangeNotifier {
       var tongSK = json.decode(response.body)['data'];
 
       _historyCheckinProvider.setTongSoNhomSK(tongSK['total']);
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<void> getTenNhomSK(idNhom) async {
+    final response = await http
+        .get(Uri.parse(AppUrl.timNhomSuKien + "?ID=$idNhom"),
+            headers: headersToken)
+        .catchError(onError);
+    if (response.statusCode == 200) {
+      var data = (json.decode(response.body)['data']['renhomSuKien']);
+      _historyCheckinProvider.setTenNhom(NhomSuKien.fromJson(data));
       notifyListeners();
     } else {
       throw Exception('Failed to load');

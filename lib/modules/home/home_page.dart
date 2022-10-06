@@ -10,6 +10,7 @@ import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/DataHistoryCheckinProvider.dart';
 import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/HistoryChekinProvider.dart';
 import 'package:checkin_app/modules/home/components/event_category.dart';
+import 'package:checkin_app/modules/home/components/event_more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -152,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       color: AppColors.kPrimaryColor,
                     ),
                     SizedBox(
-                      height: size.height * 0.6,
+                      height: size.height * 0.575,
                       child: SingleChildScrollView(
                         child: SafeArea(
                           child: Column(
@@ -188,6 +189,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: EventMore(),
+                    ),
+
                     const Divider(
                       color: AppColors.kPrimaryColor,
                     ),
@@ -199,104 +205,5 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }));
-  }
-
-  Future<void> scanQrCode(
-      UserProvider user, DataCheckin checkin, context) async {
-    try {
-      final qrCode = await FlutterBarcodeScanner.scanBarcode(
-          '#5fa693', 'Cancel', true, ScanMode.QR);
-      setState(() {
-        this.qrCode = qrCode.isEmpty
-            ? ''
-            : qrCode == '-1'
-                ? ''
-                : qrCode;
-      });
-
-      if (qrCode.isNotEmpty && qrCode != '-1') {
-        var jsonCode = jsonDecode(qrCode);
-        code = jsonCode['suKienId'];
-        CheckinProvider().getDanhSachLanDiemDanh(code);
-        _getCurrentLocation().whenComplete(() {
-          var list = checkin.dsLanDiemDanh;
-          var now = DateTime.now();
-
-          if (dieuKienDiemDanh) {
-            LanDiemDanh lanDiemDanh = list.firstWhere(
-              (e) =>
-                  (e.thoiGianDong!.isAfter(now) && e.thoiGianMo!.isBefore(now)),
-              orElse: () => LanDiemDanh(lanThu: -1),
-            );
-            if (lanDiemDanh.lanThu != -1) {
-              CheckinProvider()
-                  .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
-                      user.user.hoTen, user.user.mssv, user.user.dienThoai)
-                  .whenComplete(() {
-                var listCheckin = checkin.dsDiemDanhSK;
-                bool statusCheckin = false;
-                for (var ck in listCheckin) {
-                  if (ck.suKienId == code &&
-                      ck.lanDiemDanh == lanDiemDanh.lanThu) {
-                    statusCheckin = true;
-                    break;
-                  }
-                }
-                if (!statusCheckin) {
-                  _checkinProvider.postCheckinUser(code, user.user.iD,
-                      _position!, lanDiemDanh.lanThu, context);
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return BoxThongBao(
-                          icon: Icons.check_circle,
-                          onPress: () {
-                            Navigator.pop(context);
-                          },
-                          tittle: 'Đã điểm danh rồi',
-                          textArlert: 'Xác nhận',
-                        );
-                      });
-                }
-              });
-            } else {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return BoxThongBao(
-                      icon: Icons.check_circle,
-                      onPress: () {
-                        Navigator.pop(context);
-                      },
-                      tittle: 'Không tìm thấy phiên điểm danh',
-                      textArlert: 'Thử lại',
-                    );
-                  });
-            }
-          }
-        });
-        showDialog(
-            context: context,
-            builder: (context) {
-              return BoxThongBao(
-                icon: Icons.check_circle,
-                onPress: () {
-                  Navigator.pop(context);
-                },
-                tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
-                textArlert: 'xác nhận',
-              );
-            });
-
-        if (!mounted) return;
-      }
-    } on PlatformException {
-      qrCode = 'Failed scan ';
-    }
-  }
-
-  bool get dieuKienDiemDanh {
-    return (_position != null && DataCheckin().dsLanDiemDanh.isNotEmpty);
   }
 }

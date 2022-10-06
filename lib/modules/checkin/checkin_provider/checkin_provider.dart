@@ -4,6 +4,7 @@ import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/core/api/token.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/checkin.dart';
+import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
@@ -13,6 +14,7 @@ import 'package:http/http.dart' as http;
 
 class CheckinProvider with ChangeNotifier {
   final DataCheckin _dataCheckin = DataCheckin();
+
   // ---- POST---------
   Future<void> postCheckinUser(
       int? code, int? id, Position position, lanDiemDanh, context) async {
@@ -68,6 +70,20 @@ class CheckinProvider with ChangeNotifier {
       var tongSoLanDiemDanh = json.decode(response.body)['data'];
 
       _dataCheckin.setTongSoLanDiemDanh(tongSoLanDiemDanh['total']);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<void> getSuKienTheoID(suKienID) async {
+    final response = await http
+        .get(Uri.parse(AppUrl.timSuKienTheoID + "?ID=$suKienID"),
+            headers: headersToken)
+        .catchError(onError);
+    if (response.statusCode == 200) {
+      var data = (json.decode(response.body)['data']['resuKien']);
+      print(data);
+      _dataCheckin.setEvent(Event.fromJson(data));
     } else {
       throw Exception('Failed to load');
     }

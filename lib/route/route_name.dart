@@ -11,4 +11,5 @@ class RouteName {
   static const String detailHistoryCheckin = 'detailHistoryCheckin';
   static const String rootPage = 'rootPage';
   static const String informationEventPage = 'informationEventPage';
+  static const String eventMorePage = 'eventMorePage';
 }

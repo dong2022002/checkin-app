@@ -5,6 +5,7 @@ import 'package:checkin_app/modules/auth/register/register_page.dart';
 import 'package:checkin_app/modules/checkin/scan_page.dart';
 import 'package:checkin_app/modules/history_checkin/detail_history_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/infomation_event_page.dart';
+import 'package:checkin_app/modules/home/event_more_page.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/home/root_home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
@@ -27,6 +28,9 @@ class Router {
       case RouteName.qrScanPage:
         return PageTransition(
             child: const ScanPage(), type: PageTransitionType.bottomToTop);
+      case RouteName.eventMorePage:
+        return PageTransition(
+            child: const EventMorePage(), type: PageTransitionType.bottomToTop);
       case RouteName.loginPage:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case RouteName.register:

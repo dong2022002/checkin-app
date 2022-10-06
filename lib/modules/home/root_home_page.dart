@@ -172,81 +172,118 @@ class _RootPageState extends State<RootPage> {
       });
 
       if (qrCode.isNotEmpty && qrCode != '-1') {
-        var jsonCode = jsonDecode(qrCode);
-        code = jsonCode['suKienId'];
-        CheckinProvider().getDanhSachLanDiemDanh(code);
-        _getCurrentLocation().whenComplete(() {
-          var list = checkin.dsLanDiemDanh;
-          var now = DateTime.now();
+        try {
+          var jsonCode = jsonDecode(qrCode);
+          code = jsonCode['suKienId'];
+        } catch (e) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.error_outline,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle: 'Mã code không hợp lệ',
+                  textArlert: 'Thử lại',
+                );
+              });
+          return;
+        }
+        bool? isCheckin;
+        CheckinProvider().getSuKienTheoID(code).whenComplete(() {
+          isCheckin = checkin.event?.choPhepDoanVienKhacChiDoanThamGia;
+          if (isCheckin!) {
+            CheckinProvider().getDanhSachLanDiemDanh(code);
 
-          if (dieuKienDiemDanh) {
-            LanDiemDanh lanDiemDanh = list.firstWhere(
-              (e) =>
-                  (e.thoiGianDong!.isAfter(now) && e.thoiGianMo!.isBefore(now)),
-              orElse: () => LanDiemDanh(lanThu: -1),
-            );
-            if (lanDiemDanh.lanThu != -1) {
-              CheckinProvider()
-                  .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
-                      user.user.hoTen, user.user.mssv, user.user.dienThoai)
-                  .whenComplete(() {
-                var listCheckin = checkin.dsDiemDanhSK;
-                bool statusCheckin = false;
-                for (var ck in listCheckin) {
-                  if (ck.suKienId == code &&
-                      ck.lanDiemDanh == lanDiemDanh.lanThu) {
-                    statusCheckin = true;
-                    break;
-                  }
-                }
-                if (!statusCheckin) {
-                  CheckinProvider().postCheckinUser(code, user.user.iD,
-                      _position!, lanDiemDanh.lanThu, context);
+            _getCurrentLocation().whenComplete(() {
+              var list = checkin.dsLanDiemDanh;
+              var now = DateTime.now();
+
+              if (dieuKienDiemDanh) {
+                LanDiemDanh lanDiemDanh = list.firstWhere(
+                  (e) => (e.thoiGianDong!.isAfter(now) &&
+                      e.thoiGianMo!.isBefore(now)),
+                  orElse: () => LanDiemDanh(lanThu: -1),
+                );
+                if (lanDiemDanh.lanThu != -1) {
+                  CheckinProvider()
+                      .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
+                          user.user.hoTen, user.user.mssv, user.user.dienThoai)
+                      .whenComplete(() {
+                    var listCheckin = checkin.dsDiemDanhSK;
+                    bool statusCheckin = false;
+                    for (var ck in listCheckin) {
+                      if (ck.suKienId == code &&
+                          ck.lanDiemDanh == lanDiemDanh.lanThu) {
+                        statusCheckin = true;
+                        break;
+                      }
+                    }
+                    if (!statusCheckin) {
+                      CheckinProvider().postCheckinUser(code, user.user.iD,
+                          _position!, lanDiemDanh.lanThu, context);
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return BoxThongBao(
+                              icon: Icons.notifications,
+                              onPress: () {
+                                Navigator.pop(context);
+                              },
+                              tittle: 'Đã điểm danh rồi',
+                              textArlert: 'Xác nhận',
+                            );
+                          });
+                    }
+                  });
                 } else {
                   showDialog(
                       context: context,
                       builder: (context) {
                         return BoxThongBao(
-                          icon: Icons.check_circle,
+                          icon: Icons.error_outline,
                           onPress: () {
                             Navigator.pop(context);
                           },
-                          tittle: 'Đã điểm danh rồi',
-                          textArlert: 'Xác nhận',
+                          tittle: 'Không tìm thấy phiên điểm danh',
+                          textArlert: 'Thử lại',
                         );
                       });
                 }
-              });
-            } else {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return BoxThongBao(
-                      icon: Icons.check_circle,
-                      onPress: () {
-                        Navigator.pop(context);
-                      },
-                      tittle: 'Không tìm thấy phiên điểm danh',
-                      textArlert: 'Thử lại',
-                    );
-                  });
-            }
+              }
+            });
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return BoxThongBao(
+                    icon: Icons.check_circle,
+                    onPress: () {
+                      Navigator.pop(context);
+                    },
+                    tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
+                    textArlert: 'xác nhận',
+                  );
+                });
+
+            if (!mounted) return;
+          } else {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return BoxThongBao(
+                    icon: Icons.error_sharp,
+                    onPress: () {
+                      Navigator.pop(context);
+                    },
+                    tittle:
+                        'Sự kiện không cho phép đoàn viên khác chi đoàn tham gia',
+                    textArlert: 'xác nhận',
+                  );
+                });
           }
         });
-        showDialog(
-            context: context,
-            builder: (context) {
-              return BoxThongBao(
-                icon: Icons.check_circle,
-                onPress: () {
-                  Navigator.pop(context);
-                },
-                tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
-                textArlert: 'xác nhận',
-              );
-            });
-
-        if (!mounted) return;
       }
     } on PlatformException {
       qrCode = 'Failed scan ';
