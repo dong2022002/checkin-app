@@ -5,10 +5,14 @@ import 'package:checkin_app/modules/auth/register/register_page.dart';
 import 'package:checkin_app/modules/checkin/scan_page.dart';
 import 'package:checkin_app/modules/history_checkin/detail_history_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/infomation_event_page.dart';
+import 'package:checkin_app/modules/home/create_checkin_page.dart';
 import 'package:checkin_app/modules/home/event_more_page.dart';
+import 'package:checkin_app/modules/home/home_admin/home_admin_page.dart';
+import 'package:checkin_app/modules/home/home_admin/root_admin_home_page.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/home/root_home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
+import 'package:checkin_app/modules/profile/profile_admin_page.dart';
 import 'package:checkin_app/modules/profile/profile_page.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
@@ -28,38 +32,53 @@ class Router {
       case RouteName.qrScanPage:
         return PageTransition(
             child: const ScanPage(), type: PageTransitionType.bottomToTop);
+      case RouteName.createEventPage:
+        return PageTransition(
+            child: const CreateEventPage(),
+            type: PageTransitionType.bottomToTop);
       case RouteName.eventMorePage:
         return PageTransition(
             child: const EventMorePage(), type: PageTransitionType.bottomToTop);
       case RouteName.loginPage:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
+        return PageTransition(
+            child: const LoginPage(), type: PageTransitionType.fade);
       case RouteName.register:
-        return MaterialPageRoute(builder: (_) => const Register());
+        return PageTransition(
+            child: const Register(), type: PageTransitionType.fade);
       case RouteName.homePage:
-        return MaterialPageRoute(
-            settings: settings, builder: (_) => const HomePage());
-
+        return PageTransition(
+            child: const HomePage(), type: PageTransitionType.fade);
+      case RouteName.homeAdminPage:
+        return PageTransition(
+            child: const HomeAdminPage(), type: PageTransitionType.fade);
       case RouteName.rootPage:
-        return MaterialPageRoute(
-            settings: settings, builder: (_) => const RootPage());
+        return PageTransition(
+            child: const RootPage(), type: PageTransitionType.fade);
+      case RouteName.rootAdminPage:
+        return PageTransition(
+            child: const RootAdminPage(), type: PageTransitionType.fade);
       // case RouteName.notifacationPage:
       //   return MaterialPageRoute(builder: (_) => const NotificationPage());
       case RouteName.notifacationDetailPage:
-        return MaterialPageRoute(
-            builder: (_) => const NotificationDetailPage());
+        return PageTransition(
+            child: const NotificationDetailPage(),
+            type: PageTransitionType.fade);
       case RouteName.profilePage:
-        return MaterialPageRoute(builder: (_) => const ProfilePage());
+        return PageTransition(
+            child: const ProfilePage(), type: PageTransitionType.fade);
+      case RouteName.profileAdminPage:
+        return PageTransition(
+            child: const ProfileAdminPage(), type: PageTransitionType.fade);
       case RouteName.changePassword:
-        return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
+        return PageTransition(
+            child: const ChangePasswordPage(), type: PageTransitionType.fade);
       case RouteName.detailHistoryCheckin:
-        return MaterialPageRoute(builder: (_) {
-          DetailHistoryCheckinAr argument =
-              settings.arguments as DetailHistoryCheckinAr;
-          return DetailHistoryCheckin(
-            idSuKien: argument.idSuKien,
-            tenSk: argument.tenSk,
-          );
-        });
+        return PageTransition(
+            child: DetailHistoryCheckin(
+              idSuKien: (settings.arguments as DetailHistoryCheckinAr).idSuKien,
+              tenSk: (settings.arguments as DetailHistoryCheckinAr).tenSk,
+            ),
+            type: PageTransitionType.fade);
       default:
         {
           return MaterialPageRoute(

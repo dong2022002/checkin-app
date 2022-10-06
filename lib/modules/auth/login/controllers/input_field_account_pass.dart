@@ -110,7 +110,9 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
           SizedBox(height: size.height * 0.03),
           Button(
             text: 'Đăng nhập',
-            press: doLogin,
+            press: () {
+              doLogin(_userController.text, _passController.text);
+            },
           ),
         ],
       ),
@@ -129,16 +131,25 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
     });
   }
 
-  void doLogin() {
+  void doLogin(String userName, String pass) {
+    bool _check;
     setState(() {
-      bool _check = formKey.currentState!.validate();
-      if (_check) {
-        if (!user.user.kichHoat!) {
-          Navigator.pushNamed(context, RouteName.changePassword);
-        } else {
-          Navigator.pushReplacementNamed(context, RouteName.rootPage);
+      AuthProvider().getAdmin(userName, pass).whenComplete(() {
+        print(UserProvider().code);
+
+        if (UserProvider().code == 0) {
+          Navigator.pushReplacementNamed(context, RouteName.rootAdminPage);
+        } else if (UserProvider().code == 7) {
+          _check = formKey.currentState!.validate();
+          if (_check) {
+            if (!user.user.kichHoat!) {
+              Navigator.pushNamed(context, RouteName.changePassword);
+            } else {
+              Navigator.pushReplacementNamed(context, RouteName.rootPage);
+            }
+          } else {}
         }
-      } else {}
+      });
     });
   }
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:checkin_app/core/api/token.dart';
 import 'package:checkin_app/core/md5/hash_code_md5.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
+import 'package:checkin_app/models/admin.dart';
 import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
@@ -83,6 +84,26 @@ class AuthProvider extends ChangeNotifier {
       var data = (json.decode(reponse.body)['data']['recapCoSo']);
       ChiDoan chiDoan = ChiDoan.fromJson(data);
       UserProvider().setChiDoan(chiDoan);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<void> getAdmin(user, pass) async {
+    int code = -1;
+    final reponse = await http
+        .get(Uri.parse(AppUrl.kiemtraAdmin + "?username=$user&password=$pass"),
+            headers: headersToken)
+        .catchError(onError);
+    if (reponse.statusCode == 200) {
+      code = json.decode(reponse.body)['code'] as int;
+      var data = json.decode(reponse.body)['data']['user'];
+
+      if (code == 0) {
+        UserProvider().setAdmin(Admin.fromJson(data), code);
+      } else {
+        UserProvider().setCode(code);
+      }
     } else {
       throw Exception('Failed to load');
     }

@@ -1,13 +1,12 @@
+import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/profile/components/info_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/values/app_color.dart';
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfileAdminPage extends StatelessWidget {
+  const ProfileAdminPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class ProfilePage extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      '${user.user.hoTen}',
+                      '${user.admin?.nickName}',
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold),
                     ),
@@ -60,35 +59,23 @@ class ProfilePage extends StatelessWidget {
                     Column(
                       children: [
                         InfoItem(
-                          text: '${user.user.mssv}',
-                          title: 'MSSV',
+                          text: '${user.admin?.nickName}',
+                          title: 'chi đoàn',
                           icon: Icons.person,
                         ),
                         InfoItem(
-                          text: '${user.user.email}',
+                          text: '${user.admin?.email}',
                           title: 'Email',
                           icon: Icons.email,
                         ),
                         InfoItem(
-                          text: '${user.user.dienThoai}',
+                          text: '${user.admin?.phone}',
                           title: 'Số điện thoại',
                           icon: Icons.phone,
-                        ),
-                        InfoItem(
-                          text: '${user.chiDoan.ten}',
-                          title: 'Chi đoàn',
-                          icon: Icons.local_fire_department,
                         ),
                         SizedBox(
                           width: double.infinity,
                           height: size.height * 0.075,
-                          // decoration: BoxDecoration(
-                          // border: Border(
-                          //   bottom: BorderSide(
-                          //     color: Colors.black26.withOpacity(.3),
-                          //   ),
-                          // ),
-                          // ),
                           child: InkWell(
                             onTap: () {},
                             child: Row(

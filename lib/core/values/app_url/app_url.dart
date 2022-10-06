@@ -20,4 +20,6 @@ class AppUrl {
   static const String danhSachDiemDanh = baseUrl + "/diemDanh/getDiemDanhList";
   static const String timNhomSuKien = baseUrl + "/nhomSuKien/findNhomSuKien";
   static const String timSuKienTheoID = baseUrl + "/suKien/findSuKien";
+  static const String kiemtraAdmin =
+      baseUrl + "/user/findByUsernameAndPassword";
 }
