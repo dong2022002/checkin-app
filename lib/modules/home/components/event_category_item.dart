@@ -11,8 +11,10 @@ class EventCategoryItem extends StatefulWidget {
       {Key? key,
       required this.tenNhomSK,
       required this.idChiDoan,
-      required this.idNhomSuKien})
+      required this.idNhomSuKien,
+      required this.isAdmin})
       : super(key: key);
+  final bool isAdmin;
   final String tenNhomSK;
   final int idChiDoan;
   final int idNhomSuKien;
@@ -131,9 +133,11 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                                           dataEvent.dsSuKien.length, (index) {
                                         if (dataEvent.dsSuKien[index].nhomId ==
                                             _idNhomSk) {
+                                          ///
                                           return EventItems(
                                             tenNhomSK: widget.tenNhomSK,
                                             event: dataEvent.dsSuKien[index],
+                                            isAdmin: widget.isAdmin,
                                           );
                                         } else {
                                           return Container();

@@ -89,6 +89,20 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getChiDoanTheoAdmin(int idAdmin) async {
+    final reponse = await http
+        .get(Uri.parse(AppUrl.timChiDoanTheoAdmin + "?adminId=$idAdmin"),
+            headers: headersToken)
+        .catchError(onError);
+    if (reponse.statusCode == 200) {
+      var data = (json.decode(reponse.body)['data']['recapCoSo']);
+      ChiDoan chiDoan = ChiDoan.fromJson(data);
+      UserProvider().setChiDoan(chiDoan);
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
   Future<void> getAdmin(user, pass) async {
     int code = -1;
     final reponse = await http

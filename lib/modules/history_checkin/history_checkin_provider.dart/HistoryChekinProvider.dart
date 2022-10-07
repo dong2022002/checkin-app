@@ -46,9 +46,7 @@ class HistoryChekinProvider with ChangeNotifier {
           (json.decode(response.body)['data']['list'] as List)
               .map((data) => Event.fromJson(data))
               .toList());
-      // var tongSK = json.decode(response.body)['data'];
 
-      // _historyCheckinProvider.setDSToanBoSuKienDoanVien(tongSK['total']);
       notifyListeners();
     } else {
       throw Exception('Failed to load');

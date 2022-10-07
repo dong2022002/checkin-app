@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 
 class EventCategory extends StatelessWidget {
   const EventCategory(
-      {Key? key, required this.dsNhomSK, required this.idChiDoan})
+      {Key? key,
+      required this.dsNhomSK,
+      required this.idChiDoan,
+      required this.isAdmin})
       : super(key: key);
   final List<NhomSuKien> dsNhomSK;
   final int idChiDoan;
+  final bool isAdmin;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -18,6 +22,7 @@ class EventCategory extends StatelessWidget {
                 tenNhomSK: dsNhomSK[index].ten!,
                 idChiDoan: idChiDoan,
                 idNhomSuKien: dsNhomSK[index].iD!,
+                isAdmin: isAdmin,
               )),
     ));
   }

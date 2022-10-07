@@ -82,8 +82,9 @@ class CheckinProvider with ChangeNotifier {
         .catchError(onError);
     if (response.statusCode == 200) {
       var data = (json.decode(response.body)['data']['resuKien']);
-      print(data);
-      _dataCheckin.setEvent(Event.fromJson(data));
+      if (data != null) {
+        _dataCheckin.setEvent(Event.fromJson(data));
+      } else {}
     } else {
       throw Exception('Failed to load');
     }
@@ -95,6 +96,25 @@ class CheckinProvider with ChangeNotifier {
         .get(
             Uri.parse(AppUrl.danhSachDiemDanhSK +
                 "?chiDoanId=$idChiDoan&suKienId=$idSuKien&resultData=$resultData&hoTen=$hoTen&mssv=$mssv&dienThoai=$dienThoai"),
+            headers: headersToken)
+        .catchError(onError);
+    if (response.statusCode == 200) {
+      _dataCheckin.setDSDiemDanhSK(
+          (json.decode(response.body)['data']['list'] as List)
+              .map((data) => Checkin.fromJson(data))
+              .toList());
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<void> getDanhSachDiemDanhSKAdmin(
+      idChiDoan, idSuKien, resultData) async {
+    final response = await http
+        .get(
+            Uri.parse(AppUrl.danhSachDiemDanhSK +
+                "?chiDoanId=$idChiDoan&suKienId=$idSuKien&resultData=$resultData"),
             headers: headersToken)
         .catchError(onError);
     if (response.statusCode == 200) {

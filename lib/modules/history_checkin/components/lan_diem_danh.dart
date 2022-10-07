@@ -1,6 +1,9 @@
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
+import 'package:checkin_app/models/checkin.dart';
+import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
+import 'package:checkin_app/modules/history_checkin/components/status_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/components/time_begin_end.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +13,16 @@ class LanDiemDanhItem extends StatefulWidget {
     required this.lanDiemDanh,
     required this.beginTime,
     required this.endTime,
-    required this.statusCheckin,
+    required this.lanDiemDanhSK,
+    required this.listCheckin,
+    required this.isAdmin,
   }) : super(key: key);
   final DateTime beginTime;
   final DateTime endTime;
   final int lanDiemDanh;
-  final int statusCheckin;
-
+  final bool isAdmin;
+  final LanDiemDanh lanDiemDanhSK;
+  final List<Checkin> listCheckin;
   @override
   State<LanDiemDanhItem> createState() => _LanDiemDanhState();
 }
@@ -25,26 +31,34 @@ class _LanDiemDanhState extends State<LanDiemDanhItem> {
   late String _statusCheckin;
   late IconData _iconStatusCheckin;
   late Color _colorStatusCheckin;
+  late int _statusCheckinEvent;
+  late bool _isAdmin;
   @override
   void initState() {
-    switch (widget.statusCheckin) {
-      case -1:
-        _statusCheckin = "Vắng";
-        _iconStatusCheckin = Icons.cancel;
-        _colorStatusCheckin = Colors.red;
-        break;
-      case 0:
-        _statusCheckin = "Chưa điểm danh";
-        _iconStatusCheckin = Icons.today;
-        _colorStatusCheckin = Colors.orange;
-        break;
-      case 1:
-        _statusCheckin = "Đã điểm danh";
-        _iconStatusCheckin = Icons.check_circle;
-        _colorStatusCheckin = AppColors.kPrimaryColor;
-        break;
-      default:
+    _isAdmin = widget.isAdmin;
+    if (!_isAdmin) {
+      _statusCheckinEvent =
+          StatusCheckin.statusCheckin(widget.lanDiemDanhSK, widget.listCheckin);
+      switch (_statusCheckinEvent) {
+        case -1:
+          _statusCheckin = "Vắng";
+          _iconStatusCheckin = Icons.cancel;
+          _colorStatusCheckin = Colors.red;
+          break;
+        case 0:
+          _statusCheckin = "Chưa điểm danh";
+          _iconStatusCheckin = Icons.today;
+          _colorStatusCheckin = Colors.orange;
+          break;
+        case 1:
+          _statusCheckin = "Đã điểm danh";
+          _iconStatusCheckin = Icons.check_circle;
+          _colorStatusCheckin = AppColors.kPrimaryColor;
+          break;
+        default:
+      }
     }
+
     super.initState();
   }
 
@@ -95,21 +109,45 @@ class _LanDiemDanhState extends State<LanDiemDanhItem> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                _statusCheckin,
-                style: AppStyles.h5.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: _colorStatusCheckin,
-                ),
-              ),
-            ),
-            Icon(
-              _iconStatusCheckin,
-              color: _colorStatusCheckin,
-            )
+            !_isAdmin
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      _statusCheckin,
+                      style: AppStyles.h5.copyWith(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _colorStatusCheckin,
+                      ),
+                    ),
+                  )
+                : Container(),
+            !_isAdmin
+                ? Icon(
+                    _iconStatusCheckin,
+                    color: _colorStatusCheckin,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: AppColors.kPrimaryColor),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          child: Text(
+                            "Xem Danh Sách",
+                            style: AppStyles.h5.copyWith(
+                              color: AppColors.kPrimaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
+import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
 import 'package:checkin_app/modules/home/home_admin/home_admin_page.dart';
@@ -39,7 +40,15 @@ class _RootAdminPageState extends State<RootAdminPage> {
   late bool _isLoading;
   @override
   void initState() {
-    _isLoading = false;
+    _isLoading = true;
+    Provider.of<AuthProvider>(context, listen: false)
+        .getChiDoanTheoAdmin(UserProvider().admin!.iD!)
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+        if (!mounted) return;
+      });
+    });
     super.initState();
   }
 

@@ -43,9 +43,11 @@ class EventMorePage extends StatelessWidget {
                                 if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   return EventItems(
-                                      tenNhomSK: dataEvent.tenNhom!.ten!,
-                                      event: dataEvent
-                                          .dsSuKienTheoDoanVien[index]);
+                                    tenNhomSK: dataEvent.tenNhom!.ten!,
+                                    event:
+                                        dataEvent.dsSuKienTheoDoanVien[index],
+                                    isAdmin: false,
+                                  );
                                 } else {
                                   return const CircularProgressIndicator();
                                 }

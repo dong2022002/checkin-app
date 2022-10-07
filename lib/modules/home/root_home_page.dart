@@ -191,28 +191,44 @@ class _RootPageState extends State<RootPage> {
           return;
         }
         bool? isCheckin;
-        CheckinProvider().getSuKienTheoID(code).whenComplete(() {
-          isCheckin = checkin.event?.choPhepDoanVienKhacChiDoanThamGia;
-          if (user.chiDoan.iD == checkin.event?.chiDoanId) {
-            setDiemDanh(code, checkin, user);
-          } else if (isCheckin!) {
-            setDiemDanh(code, checkin, user);
-          } else {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return BoxThongBao(
-                    icon: Icons.error_sharp,
-                    onPress: () {
-                      Navigator.pop(context);
-                    },
-                    tittle:
-                        'Sự kiện không cho phép đoàn viên khác chi đoàn tham gia',
-                    textArlert: 'xác nhận',
-                  );
-                });
-          }
-        });
+        try {
+          CheckinProvider().getSuKienTheoID(code).whenComplete(() {
+            isCheckin = checkin.event?.choPhepDoanVienKhacChiDoanThamGia;
+            if (user.chiDoan.iD == checkin.event?.chiDoanId) {
+              setDiemDanh(code, checkin, user);
+            } else if (isCheckin!) {
+              setDiemDanh(code, checkin, user);
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BoxThongBao(
+                      icon: Icons.error_sharp,
+                      onPress: () {
+                        Navigator.pop(context);
+                      },
+                      tittle:
+                          'Sự kiện không cho phép đoàn viên khác chi đoàn tham gia',
+                      textArlert: 'xác nhận',
+                    );
+                  });
+            }
+          });
+        } catch (e) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.error_outline,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle: 'Mã code không tồn tại hoặc hết hạn',
+                  textArlert: 'Thử lại',
+                );
+              });
+          return;
+        }
       }
     } on PlatformException {
       qrCode = 'Failed scan ';

@@ -12,9 +12,10 @@ class EventItems extends StatelessWidget {
     Key? key,
     required this.event,
     required this.tenNhomSK,
+    required this.isAdmin,
   }) : super(key: key);
   final String tenNhomSK;
-
+  final bool isAdmin;
   final Event event;
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,7 @@ class EventItems extends StatelessWidget {
                           Navigator.pushNamed(
                               context, RouteName.detailHistoryCheckin,
                               arguments: DetailHistoryCheckinAr(
-                                  event.iD!, event.tieuDe!));
+                                  event.iD!, event.tieuDe!, isAdmin));
                         },
                         text: 'Xem điểm danh',
                         boxDecoration: BoxDecoration(

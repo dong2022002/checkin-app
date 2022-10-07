@@ -11,10 +11,14 @@ import 'package:provider/provider.dart';
 
 class DetailHistoryCheckin extends StatefulWidget {
   const DetailHistoryCheckin(
-      {Key? key, required this.idSuKien, required this.tenSk})
+      {Key? key,
+      required this.idSuKien,
+      required this.tenSk,
+      required this.isAdmin})
       : super(key: key);
   final int idSuKien;
   final String tenSk;
+  final bool isAdmin;
   @override
   State<DetailHistoryCheckin> createState() => _DetailHistoryCheckinState();
 }
@@ -26,20 +30,38 @@ class _DetailHistoryCheckinState extends State<DetailHistoryCheckin> {
   void initState() {
     _isLoading = true;
     id = widget.idSuKien;
-    Provider.of<CheckinProvider>(context, listen: false)
-        .getDanhSachDiemDanhSK(
-            UserProvider().user.chiDoanId,
+    widget.isAdmin
+        ?
+
+        ///Admin !!!
+        Provider.of<CheckinProvider>(context, listen: false)
+            .getDanhSachDiemDanhSKAdmin(
+            UserProvider().chiDoan.iD,
             id,
-            'all',
-            UserProvider().user.hoTen,
-            UserProvider().user.mssv,
-            UserProvider().user.dienThoai)
-        .then((value) {
-      setState(() {
-        _isLoading = false;
-        if (!mounted) return;
-      });
-    });
+            'only',
+          )
+            .then((value) {
+            setState(() {
+              _isLoading = false;
+              if (!mounted) return;
+            });
+          })
+        :
+        ////khong thuoc admin
+        Provider.of<CheckinProvider>(context, listen: false)
+            .getDanhSachDiemDanhSK(
+                UserProvider().user.chiDoanId,
+                id,
+                'all',
+                UserProvider().user.hoTen,
+                UserProvider().user.mssv,
+                UserProvider().user.dienThoai)
+            .then((value) {
+            setState(() {
+              _isLoading = false;
+              if (!mounted) return;
+            });
+          });
     super.initState();
   }
 
@@ -93,15 +115,17 @@ class _DetailHistoryCheckinState extends State<DetailHistoryCheckin> {
                               children: List.generate(
                                   dataCheckin.tongSoLanDiemDanh, (index) {
                                 return LanDiemDanhItem(
-                                    lanDiemDanh: dataCheckin
-                                        .dsLanDiemDanh[index].lanThu!,
-                                    beginTime: dataCheckin
-                                        .dsLanDiemDanh[index].thoiGianMo!,
-                                    endTime: dataCheckin
-                                        .dsLanDiemDanh[index].thoiGianDong!,
-                                    statusCheckin: StatusCheckin.statusCheckin(
-                                        dataCheckin.dsLanDiemDanh[index],
-                                        dataCheckin.dsDiemDanhSK));
+                                  lanDiemDanh:
+                                      dataCheckin.dsLanDiemDanh[index].lanThu!,
+                                  beginTime: dataCheckin
+                                      .dsLanDiemDanh[index].thoiGianMo!,
+                                  endTime: dataCheckin
+                                      .dsLanDiemDanh[index].thoiGianDong!,
+                                  lanDiemDanhSK:
+                                      dataCheckin.dsLanDiemDanh[index],
+                                  listCheckin: dataCheckin.dsDiemDanhSK,
+                                  isAdmin: widget.isAdmin,
+                                );
                               }),
                             );
                           } else {

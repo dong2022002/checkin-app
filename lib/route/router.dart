@@ -77,6 +77,7 @@ class Router {
             child: DetailHistoryCheckin(
               idSuKien: (settings.arguments as DetailHistoryCheckinAr).idSuKien,
               tenSk: (settings.arguments as DetailHistoryCheckinAr).tenSk,
+              isAdmin: (settings.arguments as DetailHistoryCheckinAr).isAdmin,
             ),
             type: PageTransitionType.fade);
       default:
@@ -93,7 +94,8 @@ class Router {
 class DetailHistoryCheckinAr {
   late int idSuKien;
   late String tenSk;
-  DetailHistoryCheckinAr(this.idSuKien, this.tenSk);
+  late bool isAdmin;
+  DetailHistoryCheckinAr(this.idSuKien, this.tenSk, this.isAdmin);
 }
 
 class InfomationEventPageAr {
