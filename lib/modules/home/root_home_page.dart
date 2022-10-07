@@ -193,81 +193,10 @@ class _RootPageState extends State<RootPage> {
         bool? isCheckin;
         CheckinProvider().getSuKienTheoID(code).whenComplete(() {
           isCheckin = checkin.event?.choPhepDoanVienKhacChiDoanThamGia;
-          if (isCheckin!) {
-            CheckinProvider().getDanhSachLanDiemDanh(code);
-
-            _getCurrentLocation().whenComplete(() {
-              var list = checkin.dsLanDiemDanh;
-              var now = DateTime.now();
-
-              if (dieuKienDiemDanh) {
-                LanDiemDanh lanDiemDanh = list.firstWhere(
-                  (e) => (e.thoiGianDong!.isAfter(now) &&
-                      e.thoiGianMo!.isBefore(now)),
-                  orElse: () => LanDiemDanh(lanThu: -1),
-                );
-                if (lanDiemDanh.lanThu != -1) {
-                  CheckinProvider()
-                      .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
-                          user.user.hoTen, user.user.mssv, user.user.dienThoai)
-                      .whenComplete(() {
-                    var listCheckin = checkin.dsDiemDanhSK;
-                    bool statusCheckin = false;
-                    for (var ck in listCheckin) {
-                      if (ck.suKienId == code &&
-                          ck.lanDiemDanh == lanDiemDanh.lanThu) {
-                        statusCheckin = true;
-                        break;
-                      }
-                    }
-                    if (!statusCheckin) {
-                      CheckinProvider().postCheckinUser(code, user.user.iD,
-                          _position!, lanDiemDanh.lanThu, context);
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return BoxThongBao(
-                              icon: Icons.notifications,
-                              onPress: () {
-                                Navigator.pop(context);
-                              },
-                              tittle: 'Đã điểm danh rồi',
-                              textArlert: 'Xác nhận',
-                            );
-                          });
-                    }
-                  });
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return BoxThongBao(
-                          icon: Icons.error_outline,
-                          onPress: () {
-                            Navigator.pop(context);
-                          },
-                          tittle: 'Không tìm thấy phiên điểm danh',
-                          textArlert: 'Thử lại',
-                        );
-                      });
-                }
-              }
-            });
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return BoxThongBao(
-                    icon: Icons.check_circle,
-                    onPress: () {
-                      Navigator.pop(context);
-                    },
-                    tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
-                    textArlert: 'xác nhận',
-                  );
-                });
-
-            if (!mounted) return;
+          if (user.chiDoan.iD == checkin.event?.chiDoanId) {
+            setDiemDanh(code, checkin, user);
+          } else if (isCheckin!) {
+            setDiemDanh(code, checkin, user);
           } else {
             showDialog(
                 context: context,
@@ -292,5 +221,80 @@ class _RootPageState extends State<RootPage> {
 
   bool get dieuKienDiemDanh {
     return (_position != null && DataCheckin().dsLanDiemDanh.isNotEmpty);
+  }
+
+  void setDiemDanh(int code, DataCheckin checkin, UserProvider user) {
+    CheckinProvider().getDanhSachLanDiemDanh(code);
+
+    _getCurrentLocation().whenComplete(() {
+      var list = checkin.dsLanDiemDanh;
+      var now = DateTime.now();
+
+      if (dieuKienDiemDanh) {
+        LanDiemDanh lanDiemDanh = list.firstWhere(
+          (e) => (e.thoiGianDong!.isAfter(now) && e.thoiGianMo!.isBefore(now)),
+          orElse: () => LanDiemDanh(lanThu: -1),
+        );
+        if (lanDiemDanh.lanThu != -1) {
+          CheckinProvider()
+              .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
+                  user.user.hoTen, user.user.mssv, user.user.dienThoai)
+              .whenComplete(() {
+            var listCheckin = checkin.dsDiemDanhSK;
+            bool statusCheckin = false;
+            for (var ck in listCheckin) {
+              if (ck.suKienId == code && ck.lanDiemDanh == lanDiemDanh.lanThu) {
+                statusCheckin = true;
+                break;
+              }
+            }
+            if (!statusCheckin) {
+              CheckinProvider().postCheckinUser(
+                  code, user.user.iD, _position!, lanDiemDanh.lanThu, context);
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BoxThongBao(
+                      icon: Icons.notifications,
+                      onPress: () {
+                        Navigator.pop(context);
+                      },
+                      tittle: 'Đã điểm danh rồi',
+                      textArlert: 'Xác nhận',
+                    );
+                  });
+            }
+          });
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.error_outline,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle: 'Không tìm thấy phiên điểm danh',
+                  textArlert: 'Thử lại',
+                );
+              });
+        }
+      }
+    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return BoxThongBao(
+            icon: Icons.check_circle,
+            onPress: () {
+              Navigator.pop(context);
+            },
+            tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
+            textArlert: 'xác nhận',
+          );
+        });
+
+    if (!mounted) return;
   }
 }
