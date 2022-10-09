@@ -19,4 +19,6 @@ class RouteName {
   static const String eventMorePage = 'eventMorePage';
 
   static const String createEventPage = "createEventPage";
+
+  static const String adminListHistoryPage = "adminListHistoryPage";
 }

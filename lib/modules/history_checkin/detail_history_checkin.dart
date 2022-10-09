@@ -1,3 +1,5 @@
+import 'package:checkin_app/components/icon_appbar.dart';
+import 'package:checkin_app/components/title_appbar.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
@@ -38,7 +40,7 @@ class _DetailHistoryCheckinState extends State<DetailHistoryCheckin> {
             .getDanhSachDiemDanhSKAdmin(
             UserProvider().chiDoan.iD,
             id,
-            'only',
+            'in',
           )
             .then((value) {
             setState(() {
@@ -74,31 +76,8 @@ class _DetailHistoryCheckinState extends State<DetailHistoryCheckin> {
           appBar: AppBar(
             backgroundColor: AppColors.kBackgroundColor,
             elevation: 0,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 26),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  size: 28,
-                  color: AppColors.kPrimaryColor,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            title: SizedBox(
-              width: size.width * 0.63,
-              child: Text(
-                widget.tenSk,
-                textAlign: TextAlign.center,
-                style: AppStyles.h4.copyWith(
-                  fontSize: 24,
-                  color: AppColors.kPrimaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            leading: const IconAppBar(),
+            title: TitleAppBar(size: size, tenSK: widget.tenSk),
           ),
           backgroundColor: AppColors.kBackgroundColor,
           body: Padding(

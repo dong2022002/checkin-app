@@ -5,6 +5,8 @@ import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
 import 'package:checkin_app/modules/history_checkin/components/status_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/components/time_begin_end.dart';
+import 'package:checkin_app/route/route_name.dart';
+import 'package:checkin_app/route/router.dart';
 import 'package:flutter/material.dart';
 
 class LanDiemDanhItem extends StatefulWidget {
@@ -137,6 +139,20 @@ class _LanDiemDanhState extends State<LanDiemDanhItem> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
+                          onTap: () {
+                            List<Checkin> _listIn = <Checkin>[];
+                            widget.listCheckin.map((e) {
+                              if (e.lanDiemDanh == widget.lanDiemDanh) {
+                                _listIn.add(e);
+                              }
+                            }).toList();
+                            _listIn
+                                .sort(((a, b) => a.hoTen!.compareTo(b.hoTen!)));
+                            Navigator.pushNamed(
+                                context, RouteName.adminListHistoryPage,
+                                arguments: AdminListHistoryPageAR(
+                                    widget.lanDiemDanh, _listIn));
+                          },
                           child: Text(
                             "Xem Danh Sách",
                             style: AppStyles.h5.copyWith(
