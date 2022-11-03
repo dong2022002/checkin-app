@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           initialRoute: RouteName.loginPage,
-          // initialRoute: RouteName.qrScanPage,
+          // initialRoute: RouteName.rootAdminPage,
 
           onGenerateRoute: router.Router.onGenerateRoute,
           debugShowCheckedModeBanner: false,

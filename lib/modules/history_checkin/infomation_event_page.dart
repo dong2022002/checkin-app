@@ -4,13 +4,40 @@ import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_image/flutter_image.dart';
 
-class InfomationEventPage extends StatelessWidget {
+class InfomationEventPage extends StatefulWidget {
   const InfomationEventPage(
       {Key? key, required this.tenNhomSK, required this.event})
       : super(key: key);
   final String tenNhomSK;
   final Event event;
+
+  @override
+  State<InfomationEventPage> createState() => _InfomationEventPageState();
+}
+
+class _InfomationEventPageState extends State<InfomationEventPage> {
+  var img;
+  @override
+  void initState() {
+    try {
+      img = Image(
+        image: NetworkImageWithRetry(
+            AppUrl.baseUrl + '/' + widget.event.anhChinh!),
+        fit: BoxFit.cover,
+        errorBuilder:
+            (BuildContext context, Object exception, StackTrace? stackTrace) {
+          return Image.asset('assets/images/no_image.png');
+        },
+      );
+    } catch (e) {
+      img = Image.asset('assets/images/no_image.png');
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,7 +62,7 @@ class InfomationEventPage extends StatelessWidget {
         title: SizedBox(
           width: size.width * 0.63,
           child: Text(
-            tenNhomSK,
+            widget.tenNhomSK,
             textAlign: TextAlign.center,
             style: AppStyles.h4.copyWith(
               fontSize: 24,
@@ -60,7 +87,7 @@ class InfomationEventPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 8),
                       child: Text(
-                        event.tieuDe!,
+                        widget.event.tieuDe!,
                         style: AppStyles.h4.copyWith(
                             color: AppColors.kTextColor.withOpacity(.65),
                             fontWeight: FontWeight.bold),
@@ -69,25 +96,22 @@ class InfomationEventPage extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    event.anhChinh!.isEmpty
-                        ? Container()
-                        : Container(
-                            height: size.height * 0.3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Image.network(
-                              AppUrl.baseUrl + '/' + event.anhChinh!,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (context, child, loadingProcess) {
-                                if (loadingProcess == null) {
-                                  return child;
-                                } else {
-                                  return const CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                          ),
+                    Container(
+                        height: size.height * 0.3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: img
+
+                        // child: Image.network(
+                        //   AppUrl.baseUrl + '/123' + event.anhChinh!,
+                        //   fit: BoxFit.cover,
+                        //   errorBuilder: (BuildContext context, Object exception,
+                        //       StackTrace? stackTrace) {
+                        //     return Image.asset('assets/images/no_image.png');
+                        //   },
+                        // ),
+                        ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: SizedBox(
@@ -122,7 +146,7 @@ class InfomationEventPage extends StatelessWidget {
                       color: AppColors.kGreyText,
                     ),
                     Html(
-                      data: event.noiDung!,
+                      data: widget.event.noiDung!,
                       style: {
                         "p": Style(
                             fontSize: const FontSize(16),
@@ -136,7 +160,7 @@ class InfomationEventPage extends StatelessWidget {
             const Divider(
               color: AppColors.kGreyText,
             ),
-            event.choPhepDoanVienKhacChiDoanThamGia!
+            widget.event.choPhepDoanVienKhacChiDoanThamGia!
                 ? DoanVienKhacChiDoanThamGia(
                     color: AppColors.kPrimaryColor.withOpacity(.8),
                     iconData: Icons.check,

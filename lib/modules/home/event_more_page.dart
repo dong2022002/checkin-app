@@ -3,7 +3,7 @@ import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/DataHistoryCheckinProvider.dart';
 import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/HistoryChekinProvider.dart';
-import 'package:checkin_app/modules/home/components/event_items.dart';
+import 'package:checkin_app/modules/home/components/event_category/event_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

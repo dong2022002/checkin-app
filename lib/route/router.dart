@@ -1,6 +1,7 @@
 import 'package:checkin_app/models/checkin.dart';
 import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
+import 'package:checkin_app/models/nhomSuKien.dart';
 import 'package:checkin_app/modules/auth/login/change_password_page.dart';
 import 'package:checkin_app/modules/auth/login/login_page.dart';
 import 'package:checkin_app/modules/auth/register/register_page.dart';
@@ -8,12 +9,13 @@ import 'package:checkin_app/modules/checkin/scan_page.dart';
 import 'package:checkin_app/modules/history_checkin/admin_list_history_page.dart';
 import 'package:checkin_app/modules/history_checkin/detail_history_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/infomation_event_page.dart';
-import 'package:checkin_app/modules/home/create_checkin_page.dart';
+import 'package:checkin_app/modules/home/components/event_category/event_category.dart';
 import 'package:checkin_app/modules/home/event_more_page.dart';
-import 'package:checkin_app/modules/home/home_admin/home_admin_page.dart';
-import 'package:checkin_app/modules/home/home_admin/root_admin_home_page.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/home/root_home_page.dart';
+import 'package:checkin_app/modules/home_admin/components/create_checkin_page.dart';
+import 'package:checkin_app/modules/home_admin/home_admin_page.dart';
+import 'package:checkin_app/modules/home_admin/root_admin_home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
 import 'package:checkin_app/modules/profile/profile_admin_page.dart';
 import 'package:checkin_app/modules/profile/profile_page.dart';
@@ -44,7 +46,9 @@ class Router {
             type: PageTransitionType.fade);
       case RouteName.createEventPage:
         return PageTransition(
-            child: const CreateEventPage(),
+            child: CreateEventPage(
+              dsNhomSuKien: settings.arguments as List<NhomSuKien>,
+            ),
             type: PageTransitionType.bottomToTop);
       case RouteName.eventMorePage:
         return PageTransition(

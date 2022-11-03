@@ -1,5 +1,5 @@
 import 'package:checkin_app/models/nhomSuKien.dart';
-import 'package:checkin_app/modules/home/components/event_category_item.dart';
+import 'package:checkin_app/modules/home/components/event_category/event_category_item.dart';
 import 'package:flutter/material.dart';
 
 class EventCategory extends StatelessWidget {

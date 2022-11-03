@@ -2,12 +2,13 @@ import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
-import 'package:checkin_app/modules/home/components/button_event.dart';
+import 'package:checkin_app/modules/home/components/widget/button_event.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:checkin_app/route/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image/flutter_image.dart';
 
-class EventItems extends StatelessWidget {
+class EventItems extends StatefulWidget {
   const EventItems({
     Key? key,
     required this.event,
@@ -17,6 +18,32 @@ class EventItems extends StatelessWidget {
   final String tenNhomSK;
   final bool isAdmin;
   final Event event;
+
+  @override
+  State<EventItems> createState() => _EventItemsState();
+}
+
+class _EventItemsState extends State<EventItems> {
+  var img;
+
+  @override
+  void initState() {
+    try {
+      img = Image(
+        image: NetworkImageWithRetry(
+            AppUrl.baseUrl + '/' + widget.event.anhChinh!),
+        fit: BoxFit.cover,
+        errorBuilder:
+            (BuildContext context, Object exception, StackTrace? stackTrace) {
+          return Image.asset('assets/images/no_image.png');
+        },
+      );
+    } catch (e) {
+      img = Image.asset('assets/images/no_image.png');
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -46,7 +73,7 @@ class EventItems extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       text: TextSpan(
-                        text: event.tieuDe,
+                        text: widget.event.tieuDe,
                         style: AppStyles.h5.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -64,7 +91,9 @@ class EventItems extends StatelessWidget {
                           Navigator.pushNamed(
                               context, RouteName.detailHistoryCheckin,
                               arguments: DetailHistoryCheckinAr(
-                                  event.iD!, event.tieuDe!, isAdmin));
+                                  widget.event.iD!,
+                                  widget.event.tieuDe!,
+                                  widget.isAdmin));
                         },
                         text: 'Xem điểm danh',
                         boxDecoration: BoxDecoration(
@@ -76,8 +105,8 @@ class EventItems extends StatelessWidget {
                         onPress: () {
                           Navigator.pushNamed(
                               context, RouteName.informationEventPage,
-                              arguments:
-                                  InfomationEventPageAr(tenNhomSK, event));
+                              arguments: InfomationEventPageAr(
+                                  widget.tenNhomSK, widget.event));
                         },
                         text: 'Thông tin',
                         boxDecoration: BoxDecoration(
@@ -93,20 +122,7 @@ class EventItems extends StatelessWidget {
                 )
               ],
             ),
-            Expanded(
-                child: event.anhChinh!.isEmpty
-                    ? Container()
-                    : Image.network(
-                        AppUrl.baseUrl + '/' + event.anhChinh!,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProcess) {
-                          if (loadingProcess == null) {
-                            return child;
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        },
-                      )),
+            Expanded(child: img)
           ],
         ),
       ),

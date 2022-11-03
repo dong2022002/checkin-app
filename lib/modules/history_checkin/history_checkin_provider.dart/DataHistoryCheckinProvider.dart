@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
+import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 
 class DataHistoryCheckinProvider with ChangeNotifier {
@@ -57,17 +58,20 @@ class DataHistoryCheckinProvider with ChangeNotifier {
   }
 
   setdanhSachSuKienthamGiaTheoDoanVien() {
+    _dsSuKienTheoDoanVien = [];
     bool isEvent = true;
     for (var sk in _dsToanBoSuKienDoanVienThamGia) {
       isEvent = true;
-      for (var skdv in _dsSuKienTheoDoanVien) {
-        if (sk.iD == skdv.iD) {
-          isEvent = false;
-          break;
+      if (sk.chiDoanId != UserProvider().chiDoan.iD) {
+        for (var skdv in _dsSuKienTheoDoanVien) {
+          if (sk.iD == skdv.iD) {
+            isEvent = false;
+            break;
+          }
         }
-      }
-      if (isEvent) {
-        _dsSuKienTheoDoanVien.add(sk);
+        if (isEvent) {
+          _dsSuKienTheoDoanVien.add(sk);
+        }
       }
     }
   }

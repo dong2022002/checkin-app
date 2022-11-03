@@ -24,4 +24,6 @@ class AppUrl {
       baseUrl + "/user/findByUsernameAndPassword";
   static const String timChiDoanTheoAdmin =
       baseUrl + "/capCoSo/findCapCoSoByAdminId";
+  static const String createLanDiemDanh =
+      baseUrl + "/lanDiemDanh/createLanDiemDanh";
 }
