@@ -40,9 +40,15 @@ class Router {
       case RouteName.adminListHistoryPage:
         return PageTransition(
             child: AdminListHistoryPage(
-                lanDiemDanh:
-                    (settings.arguments as AdminListHistoryPageAR).lanDiemDanh,
-                dsDiemDanh: (settings.arguments as AdminListHistoryPageAR).ds),
+              lanDiemDanh:
+                  (settings.arguments as AdminListHistoryPageAR).lanDiemDanh,
+              dsDiemDanhTrongChiDoan:
+                  (settings.arguments as AdminListHistoryPageAR).dsIn,
+              dsDiemDanhKhacChiDoan:
+                  (settings.arguments as AdminListHistoryPageAR).dsOut,
+              isInCheckin:
+                  (settings.arguments as AdminListHistoryPageAR).isInCheckin,
+            ),
             type: PageTransitionType.fade);
       case RouteName.createEventPage:
         return PageTransition(
@@ -120,6 +126,9 @@ class InfomationEventPageAr {
 
 class AdminListHistoryPageAR {
   late int lanDiemDanh;
-  late List<Checkin> ds;
-  AdminListHistoryPageAR(this.lanDiemDanh, this.ds);
+  late List<Checkin> dsIn;
+  late List<Checkin> dsOut;
+  late bool isInCheckin;
+  AdminListHistoryPageAR(
+      this.lanDiemDanh, this.dsIn, this.dsOut, this.isInCheckin);
 }

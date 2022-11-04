@@ -64,16 +64,16 @@ class ProfileAdminPage extends StatelessWidget {
                           title: 'chi đoàn',
                           icon: Icons.person,
                         ),
-                        InfoItem(
-                          text: '${user.admin?.email}',
-                          title: 'Email',
-                          icon: Icons.email,
-                        ),
-                        InfoItem(
-                          text: '${user.admin?.phone}',
-                          title: 'Số điện thoại',
-                          icon: Icons.phone,
-                        ),
+                        // InfoItem(
+                        //   text: '${user.admin?.email}',
+                        //   title: 'Email',
+                        //   icon: Icons.email,
+                        // ),
+                        // InfoItem(
+                        //   text: '${user.admin?.phone}',
+                        //   title: 'Số điện thoại',
+                        //   icon: Icons.phone,
+                        // ),
                         SizedBox(
                           width: double.infinity,
                           height: size.height * 0.075,

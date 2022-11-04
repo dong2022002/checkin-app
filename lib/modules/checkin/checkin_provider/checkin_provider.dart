@@ -99,7 +99,7 @@ class CheckinProvider with ChangeNotifier {
             headers: headersToken)
         .catchError(onError);
     if (response.statusCode == 200) {
-      _dataCheckin.setDSDiemDanhSK(
+      _dataCheckin.setDSDiemDanhSKTrongChiDoan(
           (json.decode(response.body)['data']['list'] as List)
               .map((data) => Checkin.fromJson(data))
               .toList());
@@ -118,10 +118,18 @@ class CheckinProvider with ChangeNotifier {
             headers: headersToken)
         .catchError(onError);
     if (response.statusCode == 200) {
-      _dataCheckin.setDSDiemDanhSK(
-          (json.decode(response.body)['data']['list'] as List)
-              .map((data) => Checkin.fromJson(data))
-              .toList());
+      if (resultData == "in") {
+        _dataCheckin.setDSDiemDanhSKTrongChiDoan(
+            (json.decode(response.body)['data']['list'] as List)
+                .map((data) => Checkin.fromJson(data))
+                .toList());
+      } else if (resultData == "out") {
+        _dataCheckin.setDSDiemDanhSKKhacChiDoan(
+            (json.decode(response.body)['data']['list'] as List)
+                .map((data) => Checkin.fromJson(data))
+                .toList());
+      }
+
       notifyListeners();
     } else {
       throw Exception('Failed to load');

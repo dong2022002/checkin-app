@@ -14,8 +14,10 @@ class TitleAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size.width * 0.63,
+    return Container(
+      constraints: BoxConstraints(),
+      padding: EdgeInsets.zero,
+      width: size.width * 0.62,
       child: Text(
         tenSK,
         textAlign: TextAlign.center,

@@ -256,7 +256,7 @@ class _RootPageState extends State<RootPage> {
               .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
                   user.user.hoTen, user.user.mssv, user.user.dienThoai)
               .whenComplete(() {
-            var listCheckin = checkin.dsDiemDanhSK;
+            var listCheckin = checkin.dsDiemDanhSKTrongChiDoan;
             bool statusCheckin = false;
             for (var ck in listCheckin) {
               if (ck.suKienId == code && ck.lanDiemDanh == lanDiemDanh.lanThu) {

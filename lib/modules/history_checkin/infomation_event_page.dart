@@ -101,17 +101,7 @@ class _InfomationEventPageState extends State<InfomationEventPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: img
-
-                        // child: Image.network(
-                        //   AppUrl.baseUrl + '/123' + event.anhChinh!,
-                        //   fit: BoxFit.cover,
-                        //   errorBuilder: (BuildContext context, Object exception,
-                        //       StackTrace? stackTrace) {
-                        //     return Image.asset('assets/images/no_image.png');
-                        //   },
-                        // ),
-                        ),
+                        child: img),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: SizedBox(

@@ -5,12 +5,16 @@ import 'package:flutter/cupertino.dart';
 
 class DataCheckin with ChangeNotifier {
   static List<LanDiemDanh> _dsLanDiemDanh = [];
-  static List<Checkin> _dsDiemDanhSK = [];
+  static List<Checkin> _dsDiemDanhSkTrongChiDoan = [];
+  static List<Checkin> _dsDiemDanhSkKhacChiDoan = [];
+
   static int _tongSoLanDiemDanh = 0;
   static Event? _event;
   int get tongSoLanDiemDanh => _tongSoLanDiemDanh;
   List<LanDiemDanh> get dsLanDiemDanh => _dsLanDiemDanh;
-  List<Checkin> get dsDiemDanhSK => _dsDiemDanhSK;
+  List<Checkin> get dsDiemDanhSKTrongChiDoan => _dsDiemDanhSkTrongChiDoan;
+  List<Checkin> get dsDiemDanhSKKhacChiDoan => _dsDiemDanhSkKhacChiDoan;
+
   Event? get event => _event;
 
   setEvent(event) {
@@ -28,8 +32,13 @@ class DataCheckin with ChangeNotifier {
     notifyListeners();
   }
 
-  setDSDiemDanhSK(ds) {
-    _dsDiemDanhSK = ds;
+  setDSDiemDanhSKTrongChiDoan(ds) {
+    _dsDiemDanhSkTrongChiDoan = ds;
+    notifyListeners();
+  }
+
+  setDSDiemDanhSKKhacChiDoan(ds) {
+    _dsDiemDanhSkKhacChiDoan = ds;
     notifyListeners();
   }
 }
