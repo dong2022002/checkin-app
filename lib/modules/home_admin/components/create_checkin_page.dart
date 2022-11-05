@@ -2,7 +2,9 @@ import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/components/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
+import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
+import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/checkin_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
@@ -53,34 +55,112 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    int idErorr = 1;
     Size size = MediaQuery.of(context).size;
-    void doCreateEvent() async {
-      print(selectedEvent);
-      print(lanThu);
-      print(DatetimeFormat.getDatetimeNow(dateBegin));
-      print(DatetimeFormat.getDatetimeNow(dateEnd));
-      if (dateBegin.isAfter(dateEnd)) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return BoxThongBao(
-                icon: Icons.notification_important,
-                onPress: () {
-                  Navigator.pop(context);
-                },
-                tittle:
-                    'Thời gian kết thúc không được đặt trước thời gian bắt đầu',
-                textArlert: 'Tiếp tục',
-              );
-            });
-      } else {
-        HomeAdminProvider().postCreateEvent(
-            int.parse(selectedEvent),
-            lanThu,
-            DatetimeFormat.getDatetimeNow(dateBegin),
-            DatetimeFormat.getDatetimeNow(dateEnd),
-            context);
+    void doSwitchCreateEvent(idErorr) {
+      switch (idErorr) {
+        case 0:
+          HomeAdminProvider().postCreateEvent(
+              int.parse(selectedEvent),
+              lanThu,
+              DatetimeFormat.getDatetimeNow(dateBegin),
+              DatetimeFormat.getDatetimeNow(dateEnd),
+              context);
+          break;
+        case 1:
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.notification_important,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle:
+                      'Thời gian kết thúc không được đặt trước thời gian bắt đầu',
+                  textArlert: 'Tiếp tục',
+                );
+              });
+          break;
+        case 2:
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.notification_important,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle: 'Không có sự kiện để tạo điểm danh',
+                  textArlert: 'Tiếp tục',
+                );
+              });
+          break;
+        case 3:
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.notification_important,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle:
+                      'có lần diểm danh khác nằm trong khoảng thời gian đang thiết lập',
+                  textArlert: 'Tiếp tục',
+                );
+              });
+          break;
+        case 4:
+          showDialog(
+              context: context,
+              builder: (context) {
+                return BoxThongBao(
+                  icon: Icons.notification_important,
+                  onPress: () {
+                    Navigator.pop(context);
+                  },
+                  tittle: 'thời gian kết thúc nhỏ hơn thời gian hiện tại',
+                  textArlert: 'Tiếp tục',
+                );
+              });
+          break;
+
+        default:
+          HomeAdminProvider().postCreateEvent(
+              int.parse(selectedEvent),
+              lanThu,
+              DatetimeFormat.getDatetimeNow(dateBegin),
+              DatetimeFormat.getDatetimeNow(dateEnd),
+              context);
+          break;
       }
+    }
+
+    void doCreateEvent() async {
+      List<LanDiemDanh> ds;
+      CheckinProvider().getDanhSachLanDiemDanh(selectedEvent).whenComplete(() {
+        ds = DataCheckin().dsLanDiemDanh;
+
+        if (dateBegin.isAfter(dateEnd)) {
+          doSwitchCreateEvent(1);
+        } else if (selectedEvent == "-111") {
+          doSwitchCreateEvent(2);
+        } else if (dateEnd.isBefore(DateTime.now())) {
+          doSwitchCreateEvent(4);
+        } else {
+          for (var lanDD in ds) {
+            if ((lanDD.thoiGianDong!.isAfter(dateBegin) &&
+                    lanDD.thoiGianMo!.isBefore(dateBegin)) ||
+                (lanDD.thoiGianDong!.isAfter(dateEnd) &&
+                    lanDD.thoiGianMo!.isBefore(dateEnd))) {
+              doSwitchCreateEvent(3);
+              return;
+            }
+          }
+          doSwitchCreateEvent(0);
+        }
+      });
     }
 
     return Scaffold(

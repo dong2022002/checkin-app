@@ -32,6 +32,7 @@ class Router {
               tenNhomSK:
                   (settings.arguments as InfomationEventPageAr).tenNhomSK,
               event: (settings.arguments as InfomationEventPageAr).event,
+              isAdmin: (settings.arguments as InfomationEventPageAr).isAdmin,
             ),
             type: PageTransitionType.fade);
       case RouteName.qrScanPage:
@@ -121,7 +122,8 @@ class DetailHistoryCheckinAr {
 class InfomationEventPageAr {
   late String tenNhomSK;
   late Event event;
-  InfomationEventPageAr(this.tenNhomSK, this.event);
+  late bool isAdmin;
+  InfomationEventPageAr(this.tenNhomSK, this.event, this.isAdmin);
 }
 
 class AdminListHistoryPageAR {

@@ -26,4 +26,6 @@ class AppUrl {
       baseUrl + "/capCoSo/findCapCoSoByAdminId";
   static const String createLanDiemDanh =
       baseUrl + "/lanDiemDanh/createLanDiemDanh";
+  static const String putChangeRightToParticipation =
+      baseUrl + "/suKien/changeRightToParticipation";
 }

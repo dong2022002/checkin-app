@@ -1,18 +1,23 @@
+import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
+import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/HistoryChekinProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_image/flutter_image.dart';
 
 class InfomationEventPage extends StatefulWidget {
   const InfomationEventPage(
-      {Key? key, required this.tenNhomSK, required this.event})
+      {Key? key,
+      required this.tenNhomSK,
+      required this.event,
+      required this.isAdmin})
       : super(key: key);
   final String tenNhomSK;
   final Event event;
-
+  final bool isAdmin;
   @override
   State<InfomationEventPage> createState() => _InfomationEventPageState();
 }
@@ -77,7 +82,7 @@ class _InfomationEventPageState extends State<InfomationEventPage> {
         child: Column(
           children: [
             SizedBox(
-              height: size.height * 0.85,
+              height: size.height * 0.82,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -150,16 +155,11 @@ class _InfomationEventPageState extends State<InfomationEventPage> {
             const Divider(
               color: AppColors.kGreyText,
             ),
-            widget.event.choPhepDoanVienKhacChiDoanThamGia!
-                ? DoanVienKhacChiDoanThamGia(
-                    color: AppColors.kPrimaryColor.withOpacity(.8),
-                    iconData: Icons.check,
-                    text: "Cho phép đoàn viên khác chi đoàn tham gia",
-                  )
-                : DoanVienKhacChiDoanThamGia(
-                    text: "Không cho phép đoàn viên khác chi đoàn tham gia",
-                    iconData: Icons.cancel,
-                    color: Colors.orange.withOpacity(.8))
+            DoanVienKhacChiDoanThamGia(
+              isAdmin: widget.isAdmin,
+              isCheckin: widget.event.choPhepDoanVienKhacChiDoanThamGia!,
+              idSukien: widget.event.iD!,
+            )
           ],
         ),
       ),
@@ -167,16 +167,35 @@ class _InfomationEventPageState extends State<InfomationEventPage> {
   }
 }
 
-class DoanVienKhacChiDoanThamGia extends StatelessWidget {
+class DoanVienKhacChiDoanThamGia extends StatefulWidget {
   const DoanVienKhacChiDoanThamGia({
     Key? key,
-    required this.text,
-    required this.iconData,
-    required this.color,
+    required this.isAdmin,
+    required this.isCheckin,
+    required this.idSukien,
   }) : super(key: key);
-  final String text;
-  final IconData iconData;
-  final Color color;
+
+  final bool isAdmin;
+  final bool isCheckin;
+  final int idSukien;
+
+  @override
+  State<DoanVienKhacChiDoanThamGia> createState() =>
+      _DoanVienKhacChiDoanThamGiaState();
+}
+
+class _DoanVienKhacChiDoanThamGiaState
+    extends State<DoanVienKhacChiDoanThamGia> {
+  late String text;
+  late IconData iconData;
+  late Color color;
+  late bool isCheckin;
+  @override
+  void initState() {
+    isCheckin = widget.isCheckin;
+    getDataDoanVienKhacChiDoan(isCheckin);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,11 +210,73 @@ class DoanVienKhacChiDoanThamGia extends StatelessWidget {
             color: color,
           ),
         )),
-        Icon(
-          iconData,
-          color: color,
-        )
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: switchButton(context),
+        ),
       ],
     );
+  }
+
+  Row switchButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        widget.isAdmin
+            ? Switch(
+                value: isCheckin,
+                activeColor: AppColors.kPrimaryColor,
+                inactiveThumbColor: Colors.orange.withOpacity(.8),
+                onChanged: (value) {
+                  HistoryChekinProvider()
+                      .putChaneRightToParticipation(widget.idSukien, value)
+                      .whenComplete(
+                    () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return BoxThongBao(
+                                tittle: "Thay đổi thành công",
+                                icon: Icons.check_circle,
+                                textArlert: "xác nhận",
+                                onPress: () {
+                                  Navigator.pop(context);
+                                });
+                          });
+                    },
+                  );
+
+                  setState(() {
+                    isCheckin = !isCheckin;
+                    getDataDoanVienKhacChiDoan(isCheckin);
+                  });
+                })
+            : Icon(
+                iconData,
+                color: color,
+              ),
+      ],
+    );
+  }
+
+  void getDataDoanVienKhacChiDoan(bool isCheckin) {
+    switch (isCheckin) {
+      case true:
+        setState(() {
+          text = "Cho phép đoàn viên khác chi đoàn tham gia";
+          iconData = Icons.check;
+          color = AppColors.kPrimaryColor.withOpacity(.8);
+        });
+
+        break;
+      case false:
+        setState(() {
+          text = "Không cho phép đoàn viên khác chi đoàn tham gia";
+          iconData = Icons.cancel;
+          color = Colors.orange.withOpacity(.8);
+        });
+        break;
+      default:
+    }
   }
 }

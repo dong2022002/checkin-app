@@ -87,6 +87,28 @@ class HistoryChekinProvider with ChangeNotifier {
   }
 
   ///----END GET-------
+  ///----PUT-----------
+  Future<void> putChaneRightToParticipation(
+      int idSuKien, bool isCheckin) async {
+    final Map<String, dynamic> userApi = {
+      "ID": idSuKien,
+      "choPhepDoanVienKhacChiDoanThamGia": isCheckin,
+    };
+    final response = await http
+        .put(
+          Uri.parse(AppUrl.putChangeRightToParticipation),
+          body: json.encode(userApi),
+          headers: headersToken,
+        )
+        .catchError(onError);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception("Failed to post");
+    }
+  }
+
+  ///----END PUT-------
   Map<String, String> get headersToken {
     return {'Content-Type': 'application/json', 'x-token': Token.token};
   }

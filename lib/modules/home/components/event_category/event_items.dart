@@ -28,19 +28,18 @@ class _EventItemsState extends State<EventItems> {
 
   @override
   void initState() {
-    try {
-      img = Image(
-        image: NetworkImageWithRetry(
-            AppUrl.baseUrl + '/' + widget.event.anhChinh!),
-        fit: BoxFit.cover,
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Image.asset('assets/images/no_image.png');
-        },
-      );
-    } catch (e) {
-      img = Image.asset('assets/images/no_image.png');
-    }
+    img =
+        // image: NetworkImageWithRetry(
+        //     AppUrl.baseUrl + '/' + widget.event.anhChinh!),
+        Image.network(
+      "abc",
+      fit: BoxFit.cover,
+      errorBuilder:
+          (BuildContext context, Object exception, StackTrace? stackTrace) {
+        return Image.asset('assets/images/no_image.png');
+      },
+    );
+
     super.initState();
   }
 
@@ -105,8 +104,8 @@ class _EventItemsState extends State<EventItems> {
                         onPress: () {
                           Navigator.pushNamed(
                               context, RouteName.informationEventPage,
-                              arguments: InfomationEventPageAr(
-                                  widget.tenNhomSK, widget.event));
+                              arguments: InfomationEventPageAr(widget.tenNhomSK,
+                                  widget.event, widget.isAdmin));
                         },
                         text: 'Thông tin',
                         boxDecoration: BoxDecoration(
