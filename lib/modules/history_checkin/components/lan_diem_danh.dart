@@ -146,9 +146,12 @@ class _LanDiemDanhState extends State<LanDiemDanhItem> {
                   )
                 : Container(),
             !_isAdmin
-                ? Icon(
-                    _iconStatusCheckin,
-                    color: _colorStatusCheckin,
+                ? SizedBox(
+                    width: size.width,
+                    child: Icon(
+                      _iconStatusCheckin,
+                      color: _colorStatusCheckin,
+                    ),
                   )
                 : _isLoading
                     ? const CircularProgressIndicator()

@@ -8,6 +8,18 @@ import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 
 class DataHistoryCheckinProvider with ChangeNotifier {
+  @override
+  void dispose() {
+    _dsSuKien = [];
+    _dsToanBoSuKienDoanVienThamGia = [];
+    _dsSuKienTheoDoanVien = [];
+    _dsNhomSuKien = [];
+    _tongSoSKien = 0;
+    _tongSoNhomSuKien = 0;
+    _tenNhom = NhomSuKien();
+    super.dispose();
+  }
+
   static List<Event> _dsSuKien = [];
   static List<Event> _dsToanBoSuKienDoanVienThamGia = [];
   static List<Event> _dsSuKienTheoDoanVien = [];
@@ -16,6 +28,7 @@ class DataHistoryCheckinProvider with ChangeNotifier {
   static int _tongSoSKien = 0;
   static int _tongSoNhomSuKien = 0;
   static NhomSuKien? _tenNhom;
+
   List<Event> get dsSuKien => _dsSuKien;
   List<Event> get dsToanBoSuKienDoanVien => _dsToanBoSuKienDoanVienThamGia;
   List<Event> get dsSuKienTheoDoanVien => _dsSuKienTheoDoanVien;

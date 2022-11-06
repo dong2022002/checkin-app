@@ -69,7 +69,7 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                             width: size.width * 0.55,
                             child: RichText(
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                              maxLines: 2,
                               text: TextSpan(
                                 text: widget.tenNhomSK,
                                 style: AppStyles.h5.copyWith(
@@ -92,7 +92,7 @@ class _EventCategoryItemState extends State<EventCategoryItem> {
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                                 color: AppColors.kPrimaryColor.withOpacity(.9),
-                                borderRadius: BorderRadius.circular(0)),
+                                borderRadius: BorderRadius.circular(3)),
                             child: Text(
                               'Chi tiết',
                               style: AppStyles.h5.copyWith(fontSize: 14),

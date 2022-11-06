@@ -14,6 +14,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider extends ChangeNotifier {
+  void putLastTime() {
+    int? id = UserProvider().user.iD;
+    if (id != null) {
+      AuthProvider().putTimeLogin(id);
+      print("succes");
+    }
+    print(id);
+  }
+
   ///----------PUT--------------------
   //----Thay doi mat khau nguoi dung
   Future<void> putUser(int id, String newPass) async {

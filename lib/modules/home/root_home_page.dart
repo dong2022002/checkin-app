@@ -90,24 +90,11 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void putLastTime() {
-    int? id = UserProvider().user.iD;
-    if (id != null) {
-      AuthProvider().putTimeLogin(id);
-      print("succes");
-    }
-    print(id);
-  }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
-      // case AppLifecycleState.paused:
-      //   putLastTime();
-      //   print("paused");
-      //   break;
       case AppLifecycleState.inactive:
-        putLastTime();
+        AuthProvider().putLastTime();
         print("inactive");
         break;
 
@@ -202,7 +189,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
                 ? ''
                 : qrCode;
       });
-
+      print(code);
       if (qrCode.isNotEmpty && qrCode != '-1') {
         try {
           var jsonCode = jsonDecode(qrCode);
@@ -273,17 +260,19 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
   void setDiemDanh(int code, DataCheckin checkin, UserProvider user) {
     CheckinProvider().getDanhSachLanDiemDanh(code);
-
     _getCurrentLocation().whenComplete(() {
       var list = checkin.dsLanDiemDanh;
       var now = DateTime.now();
 
       if (dieuKienDiemDanh) {
-        LanDiemDanh lanDiemDanh = list.firstWhere(
+        LanDiemDanh lanDiemDanh = LanDiemDanh(lanThu: -1);
+
+        lanDiemDanh = list.firstWhere(
           (e) => (e.thoiGianDong!.isAfter(now) && e.thoiGianMo!.isBefore(now)),
           orElse: () => LanDiemDanh(lanThu: -1),
         );
-        if (lanDiemDanh.lanThu != -1) {
+
+        if (lanDiemDanh.lanThu != -1 && list.isNotEmpty) {
           CheckinProvider()
               .getDanhSachDiemDanhSK(user.user.chiDoanId, code, "all",
                   user.user.hoTen, user.user.mssv, user.user.dienThoai)
@@ -299,7 +288,10 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
             if (!statusCheckin) {
               CheckinProvider().postCheckinUser(
                   code, user.user.iD, _position!, lanDiemDanh.lanThu, context);
+              Navigator.pop(context);
             } else {
+              Navigator.pop(context);
+
               showDialog(
                   context: context,
                   builder: (context) {
@@ -315,6 +307,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
             }
           });
         } else {
+          Navigator.pop(context);
           showDialog(
               context: context,
               builder: (context) {
@@ -328,21 +321,44 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
                 );
               });
         }
+      } else {
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (context) {
+              return BoxThongBao(
+                icon: Icons.error_outline,
+                onPress: () {
+                  Navigator.pop(context);
+                },
+                tittle: 'Không tìm thấy phiên điểm danh',
+                textArlert: 'Thử lại',
+              );
+            });
       }
     });
-    showDialog(
-        context: context,
-        builder: (context) {
-          return BoxThongBao(
-            icon: Icons.check_circle,
-            onPress: () {
-              Navigator.pop(context);
-            },
-            tittle: 'Đang xử lý dữ liệu xin chờ giây lát',
-            textArlert: 'xác nhận',
-          );
-        });
+    showLoaderDialog(context);
 
     if (!mounted) return;
+  }
+
+  showLoaderDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: Row(
+        children: [
+          const CircularProgressIndicator(),
+          Container(
+              margin: const EdgeInsets.only(left: 7),
+              child: const Text("Đang xử lý dữ liệu...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

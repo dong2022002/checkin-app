@@ -4,17 +4,27 @@ import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:flutter/cupertino.dart';
 
 class DataCheckin with ChangeNotifier {
+  @override
+  void dispose() {
+    _dsLanDiemDanh = [];
+    _dsDiemDanhSkTrongChiDoan = [];
+    _dsDiemDanhSkKhacChiDoan = [];
+    _tongSoLanDiemDanh = 0;
+    _event = Event();
+    super.dispose();
+  }
+
   static List<LanDiemDanh> _dsLanDiemDanh = [];
   static List<Checkin> _dsDiemDanhSkTrongChiDoan = [];
   static List<Checkin> _dsDiemDanhSkKhacChiDoan = [];
 
   static int _tongSoLanDiemDanh = 0;
   static Event? _event;
+
   int get tongSoLanDiemDanh => _tongSoLanDiemDanh;
   List<LanDiemDanh> get dsLanDiemDanh => _dsLanDiemDanh;
   List<Checkin> get dsDiemDanhSKTrongChiDoan => _dsDiemDanhSkTrongChiDoan;
   List<Checkin> get dsDiemDanhSKKhacChiDoan => _dsDiemDanhSkKhacChiDoan;
-
   Event? get event => _event;
 
   setEvent(event) {

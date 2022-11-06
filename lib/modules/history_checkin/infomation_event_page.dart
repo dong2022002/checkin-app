@@ -218,44 +218,46 @@ class _DoanVienKhacChiDoanThamGiaState
     );
   }
 
-  Row switchButton(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        widget.isAdmin
-            ? Switch(
-                value: isCheckin,
-                activeColor: AppColors.kPrimaryColor,
-                inactiveThumbColor: Colors.orange.withOpacity(.8),
-                onChanged: (value) {
-                  HistoryChekinProvider()
-                      .putChaneRightToParticipation(widget.idSukien, value)
-                      .whenComplete(
-                    () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return BoxThongBao(
-                                tittle: "Thay đổi thành công",
-                                icon: Icons.check_circle,
-                                textArlert: "xác nhận",
-                                onPress: () {
-                                  Navigator.pop(context);
-                                });
-                          });
-                    },
-                  );
+  Container switchButton(BuildContext context) {
+    return Container(
+      child: widget.isAdmin
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Switch(
+                    value: isCheckin,
+                    activeColor: AppColors.kPrimaryColor,
+                    inactiveThumbColor: Colors.orange.withOpacity(.8),
+                    onChanged: (value) {
+                      HistoryChekinProvider()
+                          .putChaneRightToParticipation(widget.idSukien, value)
+                          .whenComplete(
+                        () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return BoxThongBao(
+                                    tittle: "Thay đổi thành công",
+                                    icon: Icons.check_circle,
+                                    textArlert: "xác nhận",
+                                    onPress: () {
+                                      Navigator.pop(context);
+                                    });
+                              });
+                        },
+                      );
 
-                  setState(() {
-                    isCheckin = !isCheckin;
-                    getDataDoanVienKhacChiDoan(isCheckin);
-                  });
-                })
-            : Icon(
-                iconData,
-                color: color,
-              ),
-      ],
+                      setState(() {
+                        isCheckin = !isCheckin;
+                        getDataDoanVienKhacChiDoan(isCheckin);
+                      });
+                    }),
+              ],
+            )
+          : Icon(
+              iconData,
+              color: color,
+            ),
     );
   }
 

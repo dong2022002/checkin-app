@@ -164,7 +164,35 @@ class _CreateEventPageState extends State<CreateEventPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Create Event")),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColors.kBackgroundColor,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 26),
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              size: 28,
+              color: AppColors.kPrimaryColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        title: SizedBox(
+          width: size.width * 0.63,
+          child: Text(
+            "Tạo lần điểm danh",
+            textAlign: TextAlign.center,
+            style: AppStyles.h4.copyWith(
+              fontSize: 24,
+              color: AppColors.kPrimaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Form(

@@ -1,6 +1,7 @@
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/models/checkin.dart';
+import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:checkin_app/route/router.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class EndDrawerEvent extends StatelessWidget {
             ItemDrawer(
               size: size,
               icon: Icons.person,
-              text: 'Chi đoàn CTK44B',
+              text: "Chi đoàn " + UserProvider().chiDoan.ten!,
               onPress: () {
                 Navigator.pushReplacementNamed(
                     context, RouteName.adminListHistoryPage,

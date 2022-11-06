@@ -1,6 +1,9 @@
 import 'package:checkin_app/core/values/app_style.dart';
 import 'package:checkin_app/models/user.dart';
+import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
+import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';
+import 'package:checkin_app/modules/history_checkin/history_checkin_provider.dart/DataHistoryCheckinProvider.dart';
 import 'package:checkin_app/modules/profile/components/info_item.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:flutter/material.dart';
@@ -93,8 +96,12 @@ class ProfilePage extends StatelessWidget {
                           // ),
                           child: InkWell(
                             onTap: () {
+                              AuthProvider().putLastTime();
                               Navigator.pushNamedAndRemoveUntil(context,
                                   RouteName.loginPage, (route) => false);
+                              UserProvider().dispose();
+                              DataCheckin().dispose();
+                              DataHistoryCheckinProvider().dispose();
                             },
                             child: Row(
                               children: [

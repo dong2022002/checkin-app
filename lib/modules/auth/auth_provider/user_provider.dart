@@ -4,6 +4,15 @@ import 'package:checkin_app/models/user.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
+  @override
+  void dispose() {
+    _user = User();
+    _dataUser = [];
+    _chiDoan = ChiDoan();
+    _ad = Admin();
+    super.dispose();
+  }
+
   static User _user = User();
   static List<User> _dataUser = [];
   static ChiDoan _chiDoan = ChiDoan();
