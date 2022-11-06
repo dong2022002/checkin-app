@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
 
-import 'dart:math';
-
 import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';

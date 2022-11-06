@@ -1,6 +1,6 @@
 class AppUrl {
-  static const String baseUrl = 'http://10.0.2.2:8080/api';
-  // static const String baseUrl = 'http://192.168.1.7:8080/api';
+  // static const String baseUrl = 'http://10.0.2.2:8080/api';
+  static const String baseUrl = 'http://192.168.1.7:8080/api';
 
   static const String login = baseUrl + '/doanVien/getDoanVienList';
   static const String checkin = baseUrl + '/diemDanh/createDiemDanh';

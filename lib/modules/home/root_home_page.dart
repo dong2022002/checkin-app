@@ -95,7 +95,6 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.inactive:
         AuthProvider().putLastTime();
-        print("inactive");
         break;
 
       default:
@@ -189,7 +188,6 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
                 ? ''
                 : qrCode;
       });
-      print(code);
       if (qrCode.isNotEmpty && qrCode != '-1') {
         try {
           var jsonCode = jsonDecode(qrCode);

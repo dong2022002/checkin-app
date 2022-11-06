@@ -1,12 +1,10 @@
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/modules/home/components/widget/button_event.dart';
 import 'package:checkin_app/route/route_name.dart';
 import 'package:checkin_app/route/router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image/flutter_image.dart';
 
 class EventItems extends StatefulWidget {
   const EventItems({
@@ -24,6 +22,7 @@ class EventItems extends StatefulWidget {
 }
 
 class _EventItemsState extends State<EventItems> {
+  // ignore: prefer_typing_uninitialized_variables
   var img;
 
   @override

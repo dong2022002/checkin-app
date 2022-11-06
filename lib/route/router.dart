@@ -1,6 +1,5 @@
 import 'package:checkin_app/models/checkin.dart';
 import 'package:checkin_app/models/event.dart';
-import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
 import 'package:checkin_app/modules/auth/login/change_password_page.dart';
 import 'package:checkin_app/modules/auth/login/login_page.dart';
@@ -9,7 +8,6 @@ import 'package:checkin_app/modules/checkin/scan_page.dart';
 import 'package:checkin_app/modules/history_checkin/admin_list_history_page.dart';
 import 'package:checkin_app/modules/history_checkin/detail_history_checkin.dart';
 import 'package:checkin_app/modules/history_checkin/infomation_event_page.dart';
-import 'package:checkin_app/modules/home/components/event_category/event_category.dart';
 import 'package:checkin_app/modules/home/event_more_page.dart';
 import 'package:checkin_app/modules/home/home_page.dart';
 import 'package:checkin_app/modules/home/root_home_page.dart';

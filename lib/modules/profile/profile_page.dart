@@ -1,5 +1,4 @@
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/auth_provider.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
 import 'package:checkin_app/modules/checkin/checkin_provider/data_checkin.dart';

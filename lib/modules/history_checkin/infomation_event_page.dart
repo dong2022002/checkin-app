@@ -23,6 +23,7 @@ class InfomationEventPage extends StatefulWidget {
 }
 
 class _InfomationEventPageState extends State<InfomationEventPage> {
+  // ignore: prefer_typing_uninitialized_variables
   var img;
   @override
   void initState() {
@@ -144,7 +145,7 @@ class _InfomationEventPageState extends State<InfomationEventPage> {
                       data: widget.event.noiDung!,
                       style: {
                         "p": Style(
-                            fontSize: const FontSize(16),
+                            fontSize: FontSize(16),
                             color: AppColors.kTextColor.withOpacity(.7))
                       },
                     )

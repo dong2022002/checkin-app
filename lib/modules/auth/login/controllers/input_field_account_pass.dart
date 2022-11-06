@@ -21,9 +21,11 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _userController = TextEditingController();
 
+  // ignore: unused_field
   bool _isloading = false;
 
   UserProvider user = UserProvider();
+  // ignore: unused_field
   late final String _userName, _password;
 
   @override
@@ -135,8 +137,6 @@ class _InputFieldAccountPassState extends State<InputFieldAccountPass> {
     bool _check;
     setState(() {
       AuthProvider().getAdmin(userName, pass).whenComplete(() {
-        print(UserProvider().code);
-
         if (UserProvider().code == 0) {
           Navigator.pushReplacementNamed(context, RouteName.rootAdminPage);
         } else if (UserProvider().code == 7) {

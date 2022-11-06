@@ -22,6 +22,7 @@ class _InputRegisterState extends State<InputRegister> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
 
+  // ignore: unused_field
   late String _userName, _password, _confirmPassword, _firstName, _lastName;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime _dateTime = DateTime(2002);
@@ -33,23 +34,18 @@ class _InputRegisterState extends State<InputRegister> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    void Function() action = (() {});
+    // ignore: unused_local_variable
     String dob = "";
     void doRegister() async {
       final form = formKey.currentState;
       if (form!.validate()) {
         form.save();
-        print(_userName);
-        print(_password);
         dob = '${_dateTime.day}/${_dateTime.month}/${_dateTime.year}';
-        // await authProvider.postUser(
-        // _userName, _password, dob, _lastName, _firstName);
         Navigator.pushReplacementNamed(context, RouteName.loginPage);
       }
     }
 
     return Form(
-      // autovalidateMode: AutovalidateMode.onUserInteraction,
       key: formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

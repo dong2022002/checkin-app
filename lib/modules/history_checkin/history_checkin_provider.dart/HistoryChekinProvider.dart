@@ -101,7 +101,6 @@ class HistoryChekinProvider with ChangeNotifier {
           headers: headersToken,
         )
         .catchError(onError);
-    print(response.statusCode);
     if (response.statusCode == 200) {
     } else {
       throw Exception("Failed to post");

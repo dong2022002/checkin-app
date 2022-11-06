@@ -2,7 +2,6 @@ import 'package:checkin_app/components/box_thong_bao.dart';
 import 'package:checkin_app/components/button.dart';
 import 'package:checkin_app/core/values/app_color.dart';
 import 'package:checkin_app/core/values/app_style.dart';
-import 'package:checkin_app/core/values/app_url/app_url.dart';
 import 'package:checkin_app/models/event.dart';
 import 'package:checkin_app/models/lanDiemDanh.dart';
 import 'package:checkin_app/models/nhomSuKien.dart';
@@ -23,7 +22,9 @@ class CreateEventPage extends StatefulWidget {
 }
 
 class _CreateEventPageState extends State<CreateEventPage> {
+  // ignore: prefer_typing_uninitialized_variables
   var selectedEventCategory;
+  // ignore: prefer_typing_uninitialized_variables
   var selectedEvent;
   late int lanThu = 1;
   late DateTime now = DateTime.now();
@@ -55,7 +56,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    int idErorr = 1;
     Size size = MediaQuery.of(context).size;
     void doSwitchCreateEvent(idErorr) {
       switch (idErorr) {

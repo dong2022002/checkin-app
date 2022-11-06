@@ -18,9 +18,7 @@ class AuthProvider extends ChangeNotifier {
     int? id = UserProvider().user.iD;
     if (id != null) {
       AuthProvider().putTimeLogin(id);
-      print("succes");
     }
-    print(id);
   }
 
   ///----------PUT--------------------
@@ -60,7 +58,6 @@ class AuthProvider extends ChangeNotifier {
           headers: headersToken,
         )
         .catchError(onError);
-    print(response.statusCode);
     if (response.statusCode == 200) {
     } else {
       throw Exception("Failed to post");
