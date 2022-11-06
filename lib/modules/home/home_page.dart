@@ -7,10 +7,8 @@ import 'package:checkin_app/modules/home/components/event_category/event_categor
 import 'package:checkin_app/modules/home/components/event_more/event_more.dart';
 import 'package:checkin_app/modules/home/components/widget/logo_school.dart';
 import 'package:checkin_app/modules/home/components/widget/name_home_page.dart';
-import 'package:checkin_app/modules/home/components/widget/name_home_page.dart';
 import 'package:checkin_app/modules/home/components/widget/search_view.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,45 +19,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final CheckinProvider _checkinProvider = CheckinProvider();
-
-  String qrCode = '';
-
-  //lay vi tri location
-  Position? _position;
   var code = -1;
   var now = DateTime.now();
-
-  Future<Position> _determinePosition() async {
-    LocationPermission permission;
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location Permissions are denied');
-      }
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-  Future<void> _getCurrentLocation() async {
-    Position position = await _determinePosition();
-    setState(() {
-      _position = position;
-      if (!mounted) return;
-    });
-  }
-
-  var user = UserProvider();
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  ///////////////////////// --location
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

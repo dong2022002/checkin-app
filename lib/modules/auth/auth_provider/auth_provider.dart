@@ -8,6 +8,7 @@ import 'package:checkin_app/models/admin.dart';
 import 'package:checkin_app/models/chidoan.dart';
 import 'package:checkin_app/models/user.dart';
 import 'package:checkin_app/modules/auth/auth_provider/user_provider.dart';
+import 'package:checkin_app/modules/checkin/component/datetime_format.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -46,6 +47,25 @@ class AuthProvider extends ChangeNotifier {
     final response = await http
         .put(
           Uri.parse(AppUrl.activeUser),
+          body: json.encode(userApi),
+          headers: headersToken,
+        )
+        .catchError(onError);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception("Failed to post");
+    }
+  }
+
+  Future<void> putTimeLogin(int idDoanVien) async {
+    final Map<String, dynamic> userApi = {
+      "ID": idDoanVien,
+      "thoiGianDangNhapLanCuoi": DatetimeFormat.getDatetimeNow(DateTime.now()),
+    };
+    final response = await http
+        .put(
+          Uri.parse(AppUrl.putTimeLastLogin),
           body: json.encode(userApi),
           headers: headersToken,
         )

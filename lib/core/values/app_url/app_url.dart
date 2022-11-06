@@ -6,6 +6,8 @@ class AppUrl {
   static const String checkin = baseUrl + '/diemDanh/createDiemDanh';
   static const String changePassword = baseUrl + '/doanVien/changePassword';
   static const String activeUser = baseUrl + '/doanVien/activeAccount';
+  static const String putTimeLastLogin = baseUrl + '/doanVien/setTimeLastLogin';
+
   static const String chiDoan = baseUrl + '/capCoSo/findCapCoSo';
   static const String danhSachLanDiemDanh =
       baseUrl + '/lanDiemDanh/getLanDiemDanhList';

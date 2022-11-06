@@ -24,7 +24,7 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   String qrCode = '';
   int _bottomNavIndex = 0;
   List<Widget> pages = const [
@@ -81,6 +81,38 @@ class _RootPageState extends State<RootPage> {
       });
     });
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  } /////
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void putLastTime() {
+    int? id = UserProvider().user.iD;
+    if (id != null) {
+      AuthProvider().putTimeLogin(id);
+      print("succes");
+    }
+    print(id);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      // case AppLifecycleState.paused:
+      //   putLastTime();
+      //   print("paused");
+      //   break;
+      case AppLifecycleState.inactive:
+        putLastTime();
+        print("inactive");
+        break;
+
+      default:
+    }
   }
 
   @override
