@@ -43,7 +43,7 @@ class ItemMember extends StatelessWidget {
             ),
             const Spacer(),
             SizedBox(
-              width: size.width * 0.5,
+              width: size.width * 0.4,
               child: Text(
                 hoTen,
                 style: AppStyles.h5.copyWith(

@@ -21,4 +21,6 @@ class RouteName {
   static const String createEventPage = "createEventPage";
 
   static const String adminListHistoryPage = "adminListHistoryPage";
+
+  static const String listProfile = "listProfile";
 }

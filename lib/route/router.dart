@@ -15,6 +15,7 @@ import 'package:checkin_app/modules/home_admin/components/create_checkin_page.da
 import 'package:checkin_app/modules/home_admin/home_admin_page.dart';
 import 'package:checkin_app/modules/home_admin/root_admin_home_page.dart';
 import 'package:checkin_app/modules/notify/notification_detail_page.dart';
+import 'package:checkin_app/modules/profile/list_profile/list_profile.dart';
 import 'package:checkin_app/modules/profile/profile_admin_page.dart';
 import 'package:checkin_app/modules/profile/profile_page.dart';
 import 'package:checkin_app/route/route_name.dart';
@@ -97,6 +98,12 @@ class Router {
               idSuKien: (settings.arguments as DetailHistoryCheckinAr).idSuKien,
               tenSk: (settings.arguments as DetailHistoryCheckinAr).tenSk,
               isAdmin: (settings.arguments as DetailHistoryCheckinAr).isAdmin,
+            ),
+            type: PageTransitionType.fade);
+      case RouteName.listProfile:
+        return PageTransition(
+            child: ListProfile(
+              indexMenu: (settings.arguments as int),
             ),
             type: PageTransitionType.fade);
       default:

@@ -61,7 +61,7 @@ class ProfileAdminPage extends StatelessWidget {
                       children: [
                         InfoItem(
                           text: '${user.admin?.nickName}',
-                          title: 'chi đoàn',
+                          title: 'Chi đoàn',
                           icon: Icons.person,
                         ),
                         // InfoItem(
@@ -74,38 +74,35 @@ class ProfileAdminPage extends StatelessWidget {
                         //   title: 'Số điện thoại',
                         //   icon: Icons.phone,
                         // ),
-                        SizedBox(
+                        Container(
                           width: double.infinity,
                           height: size.height * 0.075,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  RouteName.loginPage, (route) => false);
-                            },
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.exit_to_app,
-                                    color: Colors.black26.withOpacity(.6),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    'Đăng xuất',
-                                    style: AppStyles.h6.copyWith(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          AppColors.kTextColor.withOpacity(.75),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.black26.withOpacity(.3)),
                             ),
                           ),
+                          child: ButtonProfile(
+                            size: size,
+                            onPress: () {
+                              Navigator.pushNamed(
+                                  context, RouteName.listProfile,
+                                  arguments: 0);
+                            },
+                            tittle: 'Danh sách đoàn viên',
+                            icon: Icons.assignment_ind,
+                          ),
+                        ),
+
+                        ButtonProfile(
+                          size: size,
+                          onPress: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, RouteName.loginPage, (route) => false);
+                          },
+                          tittle: 'Đăng xuất',
+                          icon: Icons.exit_to_app,
                         ),
                       ],
                     ),
@@ -117,5 +114,51 @@ class ProfileAdminPage extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class ButtonProfile extends StatelessWidget {
+  const ButtonProfile({
+    Key? key,
+    required this.size,
+    required this.onPress,
+    required this.tittle,
+    required this.icon,
+  }) : super(key: key);
+  final VoidCallback onPress;
+  final String tittle;
+  final Size size;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: size.height * 0.075,
+      child: InkWell(
+        onTap: onPress,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                icon,
+                color: Colors.black26.withOpacity(.6),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4),
+              child: Text(
+                tittle,
+                style: AppStyles.h6.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.kTextColor.withOpacity(.75),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

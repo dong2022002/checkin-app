@@ -86,13 +86,6 @@ class ProfilePage extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           height: size.height * 0.075,
-                          // decoration: BoxDecoration(
-                          // border: Border(
-                          //   bottom: BorderSide(
-                          //     color: Colors.black26.withOpacity(.3),
-                          //   ),
-                          // ),
-                          // ),
                           child: InkWell(
                             onTap: () {
                               AuthProvider().putLastTime();
